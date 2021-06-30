@@ -1,0 +1,59 @@
+/* Style para usar como base: https://github.com/alvaroico/NextLevelWeek2/blob/master/web/src/assets/styles/global.css */
+
+:root {
+    --color-background: #e4eef9;
+    --color-primary-light: #f0fbff;
+    --color-primary: lightblue;
+    --color-text-title: black;
+    --color-text-base: black;
+    --color-input-background: white;
+    --color-button-text: black;
+    --color-disabled: #d3dbde;
+}
+
+body {
+    margin: 0;
+    padding: 0 10px;
+    background-color: var(--color-background);
+}
+
+#container-botoes-formulario {
+    margin: 7px 0px;
+    border-radius: 5px;
+    background-color: #f0fbff;
+    padding: 5px;
+}
+
+#container-botoes-formulario button{
+    padding: 5px;
+    border-radius: 5px;
+    border: 0px;
+    background-color: lightblue;
+    text-decoration: none;
+    color: black;
+    margin-right: 5px;
+}
+
+#container-botoes-formulario button:hover{
+    cursor: pointer;
+}
+
+.input-group{
+    margin-bottom: 5px;
+}
+
+/* > :firstchild seleciona o primeiro elemento de dentro da tag com a classe input-group, independente de ser uma div, paragráfo ou alguma outra coisa - https://stackoverflow.com/questions/21285711/css-selector-for-first-child-element */
+.input-group > :first-child{
+    margin-right: 5px;
+}
+
+fieldset .input-group:last-child{   /* Último objeto de dentro da tag fieldset que tem a classe input-group */
+    margin-bottom: 0px; 
+}
+
+/* body,
+input,
+button,
+textarea {
+  font: 500 1rem "Times New Roman";
+} */

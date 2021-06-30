@@ -1,0 +1,7 @@
+#tela-migrar-pedidos .retangulo{
+    padding: 10px;
+    margin: 7px 0px;
+    background-color: var(--color-primary-light);
+    border-radius: 5px;
+    text-align: justify;
+}

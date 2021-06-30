@@ -1,0 +1,11 @@
+#tela-ferramentas-diversas{
+    /* background-color: #e4eef9; */
+}
+
+#tela-ferramentas-diversas .retangulo{
+    padding: 10px;
+    margin: 7px 0px;
+    background-color: var(--color-primary-light);
+    border-radius: 5px;
+    text-align: justify;
+}

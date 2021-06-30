@@ -1,25 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
+import TelaInicial from './pages/tela_inicial';
+import TelaRelacionaTabelas from './pages/relaciona_tabelas';
+import TelaPuxaCustos from './pages/puxa_custos';
+import TelaMigraPedidos from './pages/migra_pedidos';
+import TelaFerramentasDiversas from './pages/ferramentas_diversas';
+
+import './global.css'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={TelaInicial} />
+        <Route exact path="/relaciona-tabelas" component={TelaRelacionaTabelas} />
+        <Route exact path="/puxa-custos" component={TelaPuxaCustos} />
+        <Route exact path="/migra-pedidos" component={TelaMigraPedidos} />
+        <Route exact path="/ferramentas-diversas" component={TelaFerramentasDiversas} />
+      </Switch>
+    </Router>
   );
 }
 

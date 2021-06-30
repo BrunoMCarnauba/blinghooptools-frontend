@@ -1,0 +1,40 @@
+#tela-inicial{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#tela-inicial header h1, #tela-inicial footer p{
+    text-align: center;
+}
+
+nav{
+    display: flex;
+    flex-direction: row;
+    /* flex-wrap: wrap; */
+}
+
+#tela-inicial nav .botao-menu{
+    display: block;
+    margin: 5px;
+    min-width: 160px;
+}
+
+#tela-inicial .botao-menu{
+    padding: 5px;
+    border-radius: 5px;
+    background-color: var(--color-primary);
+    text-decoration: none;
+    color: black;
+}
+
+/* Executa quando a largura da tela é menor que 365px */
+@media(max-width: 365px){
+    nav{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
