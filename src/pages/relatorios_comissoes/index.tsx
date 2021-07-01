@@ -30,10 +30,11 @@ class ComissaoNegocio{
 
 
 export default function TelaRelatorioComissoes(){
-    const [urlRelatorio, setURLRelatorio] = useState<string>("https://");
+    const [urlRelatorio, setURLRelatorio] = useState<string>("");
     const [taxaCartao, setTaxaCartao] = useState<number>(0);
-    const [aliquotaComissao, setAliquotaComissao] = useState<number>(0);
-    const [agruparItensDuplicados, setAgruparItensDuplicados] = useState<boolean>(true);
+    const [aliquotaComissaoArquiteto, setAliquotaComissaoArquiteto] = useState<number>(5);
+    const [aliquotaComissaoVendedor, setAliquotaComissaoVendedor] = useState<number>(0);
+    const [relatorioComissoesVendedores, setRelatorioComissoesVendedores] = useState<boolean>(false);
 
     const [dataRelatorio, setDataRelatorio] = useState<number>(0);
     const [listaComissoes, setListaComissoes] = useState<Comissionado[]>([]);
@@ -74,7 +75,12 @@ export default function TelaRelatorioComissoes(){
                 let listaNegocios:ComissaoNegocio[] = [];
 
                 for(let y = 0; y < negociosPessoa.length; y++){
-                    valorComissao = (negociosPessoa[y].final_value* (1 - (taxaCartao/100))* (aliquotaComissao/100));
+                    valorComissao = (negociosPessoa[y].final_value* (1 - (taxaCartao/100))* (aliquotaComissaoArquiteto/100));   //Valor de comissão do arquiteto
+                    
+                    if(relatorioComissoesVendedores == true){  //Se for relatório dos vendedores
+                        valorComissao = negociosPessoa[y].final_value - valorComissao;  //Retira o valor da comissão do arquiteto do valor total para chegar no valor da comissão do vendedor
+                    }
+
                     totalComissaoPessoa += valorComissao;
 
                     let comissao = new ComissaoNegocio(negociosPessoa[y].conversion_date, negociosPessoa[y].visible_number, negociosPessoa[y].clients[0].name, negociosPessoa[y].final_value, valorComissao, "");
@@ -107,14 +113,14 @@ export default function TelaRelatorioComissoes(){
 
     return (
         <div id="tela-puxa-comissoes">
-            <MenuSuperior tituloPagina={"Consulta de preços de custo"} ajudaPressionado={() => setVisualizarAjuda(!visualizarAjuda)}/>
+            <MenuSuperior tituloPagina={"Relatório de comissões"} ajudaPressionado={() => setVisualizarAjuda(!visualizarAjuda)}/>
 
             {visualizarAjuda == true && 
                 <p className="retangulo">Adicione o link do relatório HoopDecor no campo "URL do relatório". É importante manter o "https://" no começo do link, por exemplo: "https://hoopdecor.com/orcamentos/MzIzMzc3". Depois escolha as opções de configuração, pressione "Puxar comissões" e aguarde a execução da tarefa. No final você poderá imprimir o resultado clicando no botão "Imprimir resultado" que aparecerá no fim da página.</p>
             }
 
             <fieldset>
-                <legend>Configurações</legend>
+                <legend>Comissões dos arquitetos</legend>
 
                 <div className="input-group">
                     <label>URL do relatório</label>
@@ -122,26 +128,31 @@ export default function TelaRelatorioComissoes(){
                 </div>
 
                 <div className="input-group">
-                    <label>Taxa do cartão</label>
+                    <label>Alíquota de comissão do arquiteto</label>
+                    <input id="aliquotaComissaoArquiteto" type="text" size={50} value={aliquotaComissaoArquiteto} onChange={(event) => setAliquotaComissaoArquiteto(parseFloat(event.target.value))}></input>
+                </div>
+
+                <div className="input-group">
+                    <label>Alíquota de comissão do vendedor</label>
+                    <input id="aliquotaComissaoVendedor" type="text" size={50} value={aliquotaComissaoVendedor} onChange={(event) => setAliquotaComissaoVendedor(parseFloat(event.target.value))}></input>
+                </div>
+
+                <div className="input-group">
+                    <label>Taxa fixa do cartão de crédito</label>
                     <input id="taxaCartao" type="text" size={50} value={taxaCartao} onChange={(event) => setTaxaCartao(parseFloat(event.target.value))}></input>
                 </div>
 
                 <div className="input-group">
-                    <label>Alíquota comissão</label>
-                    <input id="aliquotaComissao" type="text" size={50} value={aliquotaComissao} onChange={(event) => setAliquotaComissao(parseFloat(event.target.value))}></input>
+                    <input type="checkbox" id="relatorioComissoesVendedores" checked={relatorioComissoesVendedores} onChange={(event) => {setRelatorioComissoesVendedores(!relatorioComissoesVendedores)}} />
+                    <label htmlFor="relatorioComissoesVendedores">Mantenha marcado se deseja gerar o relatório dos vendedores e desmarcado se for para especificadores</label>
                 </div>
-
-                {/* <div className="input-group">
-                    <input type="checkbox" id="agruparItensDuplicados" checked={agruparItensDuplicados} onChange={(event) => {setAgruparItensDuplicados(!agruparItensDuplicados)}} />
-                    <label htmlFor="agruparItensDuplicados">Agrupar itens duplicados do orçamento</label>
-                </div> */}
             </fieldset>
 
             <div id="container-botoes-formulario">
-                {(urlRelatorio.length > 25 && aliquotaComissao > 0 && loadingStatus=="") ?
-                    <button onClick={() => puxarComissoesArquiteto()}>Puxar comissões dos arquitetos</button>
+                {(urlRelatorio.length > 25 && aliquotaComissaoArquiteto > 0 && aliquotaComissaoVendedor > 0 && loadingStatus=="") ?
+                    <button onClick={() => puxarComissoesArquiteto()}>Puxar comissões</button>
                 :
-                    <button disabled style={{backgroundColor: '#d3dbde'}}>Puxar custos</button>
+                    <button disabled style={{backgroundColor: '#d3dbde'}}>Puxar comissões</button>
                 }
 
                 <span>{loadingStatus}</span>
@@ -151,18 +162,19 @@ export default function TelaRelatorioComissoes(){
                 <div id="resultado">
                     <header>
                         <p><strong>Relatório de comissões de </strong> {dataRelatorio}</p>
-                        <p><strong>Alíquota da comissão: </strong> {aliquotaComissao}%</p>
+                        <p><strong>Alíquota da comissão dos arquitetos: </strong> {aliquotaComissaoArquiteto}%</p>
+                        <p><strong>Alíquota da comissão dos vendedores: </strong> {aliquotaComissaoVendedor}%</p>
                         <p><strong>Taxa fixa de cartão: </strong> {taxaCartao}%</p>
                     </header>
                     
                     {listaComissoes.map((item: Comissionado, index: number) => 
                         <div id="container-produto" key={index.toString()}>
-                            <div id="linha-descricao">
+                            <div id="dados-comissionado">
                                 <p><strong>Comissionado:</strong> {item.nomeComissionado}</p>
                             </div>
 
                             {item.comissoesNegocios.map((item: ComissaoNegocio, index: number) => 
-                                <div>
+                                <div className="pedido" key={index.toString()}>
                                     <p><strong>Pedido</strong> {item.numeroPedido}</p>
                                     <p>Cliente: {item.nomeCliente}</p>
                                     <p>Valor da venda: R$:{item.valorVenda.toFixed(2)}</p>
@@ -177,7 +189,7 @@ export default function TelaRelatorioComissoes(){
                     )}
                     
                     <footer>
-                        <p><strong>Total de comissões:</strong> R$:{valorTotalComissoes.toFixed(2)}</p>
+                        <p><strong>Soma das comissões:</strong> R$:{valorTotalComissoes.toFixed(2)}</p>
                         <p>Desenvolvido por BrunoMCarnauba</p>
                     </footer>
                 </div>

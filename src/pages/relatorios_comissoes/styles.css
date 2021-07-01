@@ -34,6 +34,10 @@
     border: solid 1px black;
 }
 
+#tela-puxa-comissoes #resulado #container-produto .pedido{
+    border: 1px solid;
+}
+
 #tela-puxa-comissoes #resultado #container-produto > div{  /* Selector '>' aplica o estilo para o primeiro nível de div's de dentro do #container-produto */
     margin-bottom: 10px;
     display: flex;
@@ -50,10 +54,6 @@
 #tela-puxa-comissoes #resultado #container-produto div p:last-child{
     margin-right: 0px;
 }   
-
-#tela-puxa-comissoes #resultado #container-produto #linha-descricao p:last-child{
-    margin-left: auto; /* Usado para alinhar o último item que está em um display flex na direita da página */
-}
 
 #tela-puxa-comissoes #resultado footer{
     display: flex;
