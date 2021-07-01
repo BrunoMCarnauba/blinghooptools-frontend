@@ -1,14 +1,14 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
 
-import TinyProvider from 'src/providers/TinyAPI';
-import BlingProvider from 'src/providers/BlingAPI';
+import TinyProvider from '../../providers/TinyAPI';
+import BlingProvider from '../../providers/BlingAPI';
 
 //Migrar pedidos
-import PedidoBling, { ItemPedidoBling, ItemPedidoBlingContainer, ParcelaPedidoBling, ParcelaPedidoBlingContainer } from 'src/models/PedidoBling';
-import ClienteBling from 'src/models/ClienteBling';
+import PedidoBling, { ItemPedidoBling, ItemPedidoBlingContainer, ParcelaPedidoBling, ParcelaPedidoBlingContainer } from '../../models/PedidoBling';
+import ClienteBling from '../../models/ClienteBling';
 
-import MenuSuperior from 'src/components/menu_superior/index';
+import MenuSuperior from '../../components/menu_superior/index';
 
 import './styles.css';
 

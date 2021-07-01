@@ -25,6 +25,7 @@ export default function TelaInicial(){
                 <nav>
                     <Link className="botao-menu" to="/relaciona-tabelas">Ferramenta para relacionamento de tabelas</Link>
                     <Link className="botao-menu" to="/puxa-custos">Ferramenta para puxar preços de custo do orçamento</Link>
+                    <Link className="botao-menu" to="/relatorios-comissoes">Ferramenta para gerar relatório de comissões</Link>
                     <Link className="botao-menu" to="/migra-pedidos">Ferramenta para migrar pedidos entre sistemas ERP</Link>
                     <Link className="botao-menu" to="/ferramentas-diversas">Ferramentas diversas</Link>
                 </nav>

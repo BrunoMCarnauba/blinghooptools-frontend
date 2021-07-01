@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
-import HoopProvider from 'src/providers/HoopAPI';
-import TinyProvider from 'src/providers/TinyAPI';
-import BlingProvider from 'src/providers/BlingAPI';
-import MenuSuperior from 'src/components/menu_superior/index';
+import HoopProvider from '../../providers/HoopAPI';
+import TinyProvider from '../../providers/TinyAPI';
+import BlingProvider from '../../providers/BlingAPI';
+import MenuSuperior from '../../components/menu_superior/index';
 
 import './styles.css';
 

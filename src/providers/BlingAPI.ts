@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import {objToXML, removerAtributosIndefinidos} from 'src/utils/utilitarios';
+import {objToXML, removerAtributosIndefinidos} from '../utils/utilitarios';
 import PedidoBling from '../models/PedidoBling';
 
 export default class BlingProvider {
@@ -8,7 +8,7 @@ export default class BlingProvider {
         baseURL: 'https://bling.com.br/Api/v2/',
     })
 
-    private fimURL: string = "/json/?apikey=";
+    private fimURL: string = "/json/?apikey="+process.env.API_BLING_REVENDA;
 
     /**
      * Retorna uma promise em que se tiver conseguido encontrar o pedido por meio do número informado, retorna um objeto com os dados, caso contrário, não retorna nada.

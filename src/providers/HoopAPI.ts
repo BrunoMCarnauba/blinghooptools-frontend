@@ -25,4 +25,20 @@ export default class HoopProvider {
             return null;
         });
     }
+
+    /**
+     * 
+     */
+    public async getDadosRelatorio(urlOrcamento: string){
+        return Axios.get(urlOrcamento).then((resposta) => {
+            let htmlOrcamento = resposta.data;
+            let inicioDadosOrcamento = htmlOrcamento.split('window.printdata = {')[1];
+            let jsonDadosOrcamento = "{"+inicioDadosOrcamento.split('};')[0]+"}";
+            let objDadosOrcamento = JSON.parse(jsonDadosOrcamento);
+            return objDadosOrcamento;
+        }).catch((erro) => {
+            console.error("Erro ao tentar pegar o HTML do relatório: "+erro);
+            return null;
+        });
+    }
 }

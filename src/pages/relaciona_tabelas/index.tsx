@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
-import { criarExcel, lerExcel } from 'src/utils/excel';
+import { criarExcel, lerExcel } from '../../utils/excel';
 
 import './styles.css';
-import MenuSuperior from 'src/components/menu_superior';
+import MenuSuperior from '../../components/menu_superior';
 
 /**
  * Inicia com os dados do Bling

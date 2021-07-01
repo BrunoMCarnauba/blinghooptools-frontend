@@ -10,7 +10,7 @@ export default class TinyProvider {
         baseURL: 'https://api.tiny.com.br/api2/'
     })
 
-    private fimURL: string = "&token=&formato=json";
+    private fimURL: string = "&token=&"+process.env.API_TINY_REVENDA+"+formato=json";
 
     /**
      * Retorna uma promise em que se tiver conseguido encontrar o pedido por meio do número informado, retorna um objeto com os dados, caso contrário, não retorna nada.
