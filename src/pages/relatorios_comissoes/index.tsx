@@ -129,17 +129,17 @@ export default function TelaRelatorioComissoes(){
 
                 <div className="input-group">
                     <label>Alíquota de comissão do arquiteto</label>
-                    <input id="aliquotaComissaoArquiteto" type="text" size={50} value={aliquotaComissaoArquiteto} onChange={(event) => setAliquotaComissaoArquiteto(parseFloat(event.target.value))}></input>
+                    <input id="aliquotaComissaoArquiteto" type="number" size={50} value={aliquotaComissaoArquiteto} onChange={(event) => setAliquotaComissaoArquiteto(parseFloat(event.target.value))}></input>
                 </div>
 
                 <div className="input-group">
                     <label>Alíquota de comissão do vendedor</label>
-                    <input id="aliquotaComissaoVendedor" type="text" size={50} value={aliquotaComissaoVendedor} onChange={(event) => setAliquotaComissaoVendedor(parseFloat(event.target.value))}></input>
+                    <input id="aliquotaComissaoVendedor" type="number" size={50} value={aliquotaComissaoVendedor} onChange={(event) => setAliquotaComissaoVendedor(parseFloat(event.target.value))}></input>
                 </div>
 
                 <div className="input-group">
                     <label>Taxa fixa do cartão de crédito</label>
-                    <input id="taxaCartao" type="text" size={50} value={taxaCartao} onChange={(event) => setTaxaCartao(parseFloat(event.target.value))}></input>
+                    <input id="taxaCartao" type="number" size={50} value={taxaCartao} onChange={(event) => setTaxaCartao(parseFloat(event.target.value))}></input>
                 </div>
 
                 <div className="input-group">
