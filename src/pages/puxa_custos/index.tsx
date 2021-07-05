@@ -158,7 +158,7 @@ export default function TelaPuxaCustos(){
                 </div>
             </fieldset>
 
-            <div id="container-botoes-formulario">
+            <div className="container-botoes-formulario">
                 {(urlOrcamento.length > 25 && loadingStatus=="") ?
                     <button onClick={() => puxarCustos()}>Puxar custos</button>
                 :
@@ -209,7 +209,7 @@ export default function TelaPuxaCustos(){
             }
 
             {produtosAtualizados.length > 0 && 
-                <div id="container-botoes-formulario">
+                <div className="container-botoes-formulario">
                     <button onClick={() => imprimirResultado()}>Imprimir resultado</button>
                 </div>
             }

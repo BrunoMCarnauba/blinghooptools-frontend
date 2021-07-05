@@ -3,11 +3,44 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+#tela-inicial main {
     align-items: center;
+    display: flex;
+    flex-direction: column;
 }
 
 #tela-inicial header h1, #tela-inicial footer p{
     text-align: center;
+}
+
+#tela-inicial #autenticacao{
+    background-color: var(--color-primary-light);
+    padding: 10px;
+    border-radius: 15px;
+    margin: 0px 0px 20px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 600px;
+}
+
+#tela-inicial #autenticacao p{
+    margin: 0px;
+    text-align: center;
+}
+
+#tela-inicial #autenticacao #texto-erro{
+    color: crimson;
+}
+
+#tela-inicial #opcoes-erp{
+    margin: 5px 0px;
+}
+
+#tela-inicial #autenticacao .container-token input{
+    margin: 0 5px;
 }
 
 nav{
@@ -16,25 +49,15 @@ nav{
     /* flex-wrap: wrap; */
 }
 
-#tela-inicial nav .botao-menu{
-    display: block;
-    margin: 5px;
-    min-width: 160px;
-}
-
-#tela-inicial .botao-menu{
-    padding: 5px;
-    border-radius: 5px;
-    background-color: var(--color-primary);
-    text-decoration: none;
-    color: black;
+#tela-inicial nav .botao-normal{
+    margin-bottom: 5px;
 }
 
 /* Executa quando a largura da tela é menor que 365px */
 @media(max-width: 365px){
     nav{
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         flex-wrap: wrap;
     }
 }

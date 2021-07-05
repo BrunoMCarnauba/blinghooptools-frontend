@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import TelaInicial from './pages/tela_inicial';
@@ -11,6 +11,10 @@ import TelaFerramentasDiversas from './pages/ferramentas_diversas';
 import './global.css'
 
 function App() {
+  useEffect(() => {
+    document.title = "Utilitários Bling e Hoop";
+  }, []);
+
   return (
     <Router>
       <Switch>

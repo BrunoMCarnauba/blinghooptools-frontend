@@ -146,7 +146,7 @@ export default function TelaMigraPedidos(){
                 </div>
             </fieldset>
 
-            <div id="container-botoes-formulario">
+            <div className="container-botoes-formulario">
                 {(dataInicial.length > 0 && dataFinal.length > 0 && loadingStatus=="") ?
                     <button onClick={() => migrarPedidos()}>Migrar pedidos</button>
                 :

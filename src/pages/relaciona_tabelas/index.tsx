@@ -456,7 +456,7 @@ export default function TelaRelacionaTabelas() {
         </div>
       </fieldset>
 
-      <div id="container-botoes-formulario">
+      <div className="container-botoes-formulario">
         {nomeFabricanteERP != '' && substituicaoTributaria != null && fator != null && fator > 0 && acrescimo != null && desconto != null && arquivosERP != null && arquivoFabricante != null && loadingStatus == "" ?
           <button onClick={() => relacionarTabelas()}>Carregar</button>
         :

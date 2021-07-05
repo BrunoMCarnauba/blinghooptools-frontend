@@ -17,14 +17,14 @@ body {
     background-color: var(--color-background);
 }
 
-#container-botoes-formulario {
+.container-botoes-formulario {
     margin: 7px 0px;
     border-radius: 5px;
     background-color: #f0fbff;
     padding: 5px;
 }
 
-#container-botoes-formulario button{
+.container-botoes-formulario button, .botao-normal{
     padding: 5px;
     border-radius: 5px;
     border: 0px;
@@ -32,9 +32,10 @@ body {
     text-decoration: none;
     color: black;
     margin-right: 5px;
+    text-align: center;
 }
 
-#container-botoes-formulario button:hover{
+.container-botoes-formulario button:hover, .botao-normal:hover{
     cursor: pointer;
 }
 

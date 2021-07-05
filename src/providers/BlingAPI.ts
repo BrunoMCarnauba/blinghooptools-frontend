@@ -7,8 +7,15 @@ export default class BlingProvider {
     protected api = Axios.create({
         baseURL: 'https://bling.com.br/Api/v2/',
     })
+    
+    private fimURL: string = "/json/?apikey=";
 
-    private fimURL: string = "/json/?apikey="+process.env.API_BLING_REVENDA;
+    private autenticar(){
+        let autenticacao:string = localStorage.getItem("autenticacao") || "";
+        if(autenticacao != ""){
+            this.fimURL = this.fimURL+JSON.parse(autenticacao).token;
+        }
+    }
 
     /**
      * Retorna uma promise em que se tiver conseguido encontrar o pedido por meio do número informado, retorna um objeto com os dados, caso contrário, não retorna nada.
@@ -30,11 +37,26 @@ export default class BlingProvider {
     // }
 
     /**
+     * Verifica se consegue fazer uma consulta no ERP com o Token fornecido. Se sim, retorna uma string vazia, caso contrário, retorna o erro.
+     * @param token 
+     */
+    public async testarAPI(tokenAPI: string): Promise<string>{
+        return Axios.get('https://bling.com.br/Api/v2/produtos/json/&apikey='+tokenAPI).then((retorno) => {
+            return "";
+        }).catch((erro) => {
+            erro = erro.response.data.retorno.erros.erro;
+            return erro.msg+" (Código "+erro.cod+")";
+        })
+    }
+
+    /**
      * Inclui um pedido de venda ao sistema Bling
      * @param pedido 
      */
     public async incluirPedido(pedido: PedidoBling){
         try{
+            this.autenticar();
+
             if(pedido.obs){
                 pedido.obs = pedido.obs.replace(/(\r\n|\n|\r)/gm, ""); //Remove as quebras de linha das observações - https://stackoverflow.com/questions/10805125/how-to-remove-all-line-breaks-from-a-string
             }
@@ -67,6 +89,8 @@ export default class BlingProvider {
      * @param codigo 
      */
     public getProdutoPorCodigo(codigo: string){
+        this.autenticar();
+
         return this.api.get('produto/'+codigo+this.fimURL).then((resposta: any) => {
             return resposta.data.retorno.produtos[0].produto;
         }).catch((erro) => {

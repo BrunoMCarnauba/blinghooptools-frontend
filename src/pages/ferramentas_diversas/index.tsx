@@ -96,7 +96,7 @@ export default function TelaFerramentasDiversas() {
           <label htmlFor="juntarTudoEmUm">Juntar todo conteúdo em uma só tabela</label>
         </div>
 
-        <div id="container-botoes-formulario">
+        <div className="container-botoes-formulario">
           {nomeArquivoExcel != '' && arquivosExcel != null && qtdMaximaLinhasPorTabela > 10 && loadingStatus == "" ?
             <button onClick={() => agruparTabelasExcel()}>Agrupar tabelas</button>
           :

@@ -148,7 +148,7 @@ export default function TelaRelatorioComissoes(){
                 </div>
             </fieldset>
 
-            <div id="container-botoes-formulario">
+            <div className="container-botoes-formulario">
                 {(urlRelatorio.length > 25 && aliquotaComissaoArquiteto > 0 && aliquotaComissaoVendedor > 0 && loadingStatus=="") ?
                     <button onClick={() => puxarComissoesArquiteto()}>Puxar comissões</button>
                 :
@@ -196,7 +196,7 @@ export default function TelaRelatorioComissoes(){
             }
 
             {listaComissoes.length > 0 && 
-                <div id="container-botoes-formulario">
+                <div className="container-botoes-formulario">
                     <button onClick={() => imprimirResultado()}>Imprimir resultado</button>
                 </div>
             }

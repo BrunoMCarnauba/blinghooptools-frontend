@@ -10,13 +10,39 @@ export default class TinyProvider {
         baseURL: 'https://api.tiny.com.br/api2/'
     })
 
-    private fimURL: string = "&token=&"+process.env.API_TINY_REVENDA+"+formato=json";
+    private fimURL: string = "&formato=json&token=";
+
+    private autenticar(){
+        let autenticacao:string = localStorage.getItem("autenticacao") || "";
+        if(autenticacao != ""){
+            this.fimURL = this.fimURL+JSON.parse(autenticacao).token;
+        }
+    }
+
+    /**
+     * Verifica se consegue fazer uma consulta no ERP com o Token fornecido. Se sim, retorna uma string vazia, caso contrário, retorna o erro.
+     * @param token 
+     */
+    public async testarAPI(token: string): Promise<string>{
+        return Axios.get("https://api.tiny.com.br/api2/produtos.pesquisa.php?pesquisa&token="+token+"&formato=json").then((resposta) => {
+            let dadosRecebidos = resposta.data.retorno;
+            if(dadosRecebidos.erros != undefined){
+                return dadosRecebidos.erros[0].erro+" (Código "+dadosRecebidos.codigo_erro+")";
+            }else{
+                return "";
+            }
+        }).catch((resposta) => {
+            return "Erro na autenticação";
+        })
+    }
 
     /**
      * Retorna uma promise em que se tiver conseguido encontrar o pedido por meio do número informado, retorna um objeto com os dados, caso contrário, não retorna nada.
      */
     public async getPedidoPorNumero(numeroPedido: number): Promise<any>{
         try{
+            this.autenticar();
+
             let resposta = await this.api.get('pedidos.pesquisa.php?numero='+numeroPedido+this.fimURL);
             let pedidos = resposta.data.retorno.pedidos;
             
@@ -31,6 +57,8 @@ export default class TinyProvider {
     }
 
     public async getPedidoPorID(idPedido: number): Promise<any>{
+        this.autenticar();
+
         return this.api.get('pedido.obter.php?id='+idPedido+this.fimURL).then((resposta) => {
             let pedido = resposta.data.retorno.pedido;
             return pedido;
@@ -46,6 +74,8 @@ export default class TinyProvider {
      */
     public async getListaPedidosCompletos(dataInicial: string = '', dataFinal: string = ''): Promise<any>{
         try{
+            this.autenticar();
+
             //Como conferir a URL antes de enviar a requisição: https://stackoverflow.com/questions/50296744/check-axios-request-url-before-sending/50297192
             // this.api.interceptors.request.use(function (config) {
             //     // Do something before request is sent
@@ -76,6 +106,8 @@ export default class TinyProvider {
      * Recomendação: Insira o código SKU completo para evitar erros.
      */
     public async getProdutoPorCodigoSKU(codigoSKU: string){
+        this.autenticar();
+
         return this.api.get('produtos.pesquisa.php?pesquisa='+codigoSKU+this.fimURL).then((resposta) => {
             let produto = resposta.data.retorno.produtos[0].produto;
             return produto;

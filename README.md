@@ -1,18 +1,37 @@
-# Getting Started with Create React App
+# Utilitário Bling e HoopDecor
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Esse projeto foi desenvolvido com [React JS com TypeScript](https://github.com/facebook/create-react-app) 
 
-## Available Scripts
+## Recursos disponíveis
 
-In the project directory, you can run:
+### Relacionamento de tabelas para importação no ERP
+Atualize os itens do ERP (Bling ou Tiny ERP) através do relacionamento por código de fábrica ou descrição. Você exporta do ERP os produtos do fabricante no qual deseja atualizar, cria uma tabela com todos os produtos recebidos do fabricante seguindo o padrão pedido pela aplicação (Colunas obrigatórias: "Preço de tabela" e "Cód do fabricante" ou "Descrição". E as colunas opcionais: "Unidade", "Unidade por caixa", "Classificação fiscal", "CEST", "Peso bruto (Kg)", "Comprimento embalagem", "Largura embalagem", "Altura embalagem" e "%IPI", onde o IPI você informa o valor sem a %, por exemplo, 5% é apenas 5). Abre a função de relacionamento de tabelas, informa o nome do fabricante que está no ERP, informa os valores para o cálculo de preço, adiciona as tabelas exportadas do ERP e a do fabricante, e a aplicação irá gerar para você uma tabela com os produtos atualizados e outra tabela com os novos produtos encontrados (se houver) para que possa ser importada no ERP.
+
+### Ferramentas diversas
+Una as tabelas exportadas do ERP em apenas uma tabela com a função de agrupar tabelas, ou divida 1 tabela em várias.
+Essas funções podem ser úteis para juntar tabelas exportadas (quando são exportados mais de 500 produtos o ERP não baixa tudo em uma só tabela), e pode ser útil quando tem uma tabela muito grande para importar, mas por garantia quer importar de 500 em 500 ou algo próximo disso.
+
+### Ferramenta para puxar preços de custo de um orçamento HoopDecor
+Puxe os preços de um orçamento HoopDecor com os preços de custo e preços de venda. Essa função é útil para fazer cálculos necessários para dar desconto na venda.
+A aplicação consultará os preços de custo na API do ERP através da pesquisa pelo código de loja.
+
+### Ferramenta para gerar relatório de comissões com o HoopDecor
+Por meio do relatório de arquitetos ou de vendedores do sistema HoopDecor, crie um relatório com os valores das comissões calculados automaticamente conforme as alíquotas informadas na aplicação.
+O sistema usa a seguinte fórmula para cálculo das comissões dos especificadores: `((Valor total com desconto e sem frete)*(1-(%TaxaModoPagamento/100))*(%ComissãoArquiteto/100))`;
+E usa a seguinte fórmula para cálculo das comissões dos vendedores: `((Valor total com desconto e sem frete)*(1-(%TaxaModoPagamento/100))*(1-%ComissãoArquiteto/100))*(%ComissãoVendedor/100)`.
+
+## Scripts disponíveis
+
+Na pasta do projeto, você pode executar os seguintes comandos através do terminal:
 
 ### `yarn start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Inicia o aplicativo no modo de desenvolvimento.\
+Abra [http://localhost:3000](http://localhost:3000) para acessá-lo pelo navegador.
+Para usar funções que usam da API do ERP pelo localhost pode ser necessário utilizar a extensão [Allow CORS](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf?hl=pt).
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+A página vai recarregar se você fizer edições no código.\
+Você também poderá visualizar os erros no console.
 
 ### `yarn test`
 
@@ -39,8 +58,11 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+## Links que podem ser úteis
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Para aprender sobre React, você pode checar a [Documentação React](https://reactjs.org/).
+Para aprender mais sobre a API Bling, você pode checar a [Documentação API Bling para Desenvolvedores](https://ajuda.bling.com.br/hc/pt-br/categories/360002186394-API-para-Desenvolvedores).
+Para aprender mais sobre a API Tin, você pode checar a [Documentação API Tiny ERP para Desenvolvedores](https://www.tiny.com.br/ajuda/api/api2).
+Sistema ERP [Bling](https://www.bling.com.br/home);
+Sistema ERP [Tiny ERP](https://www.tiny.com.br/);
+Sitema CRM [HoopDecor](https://hoopdecor.com/).
