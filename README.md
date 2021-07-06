@@ -5,7 +5,7 @@ Esse projeto foi desenvolvido com [React JS com TypeScript](https://github.com/f
 ## Recursos disponíveis
 
 ### Relacionamento de tabelas para importação no ERP
-Atualize os itens do ERP (Bling ou Tiny ERP) através do relacionamento por código de fábrica ou descrição. Você exporta do ERP os produtos do fabricante no qual deseja atualizar, cria uma tabela com todos os produtos recebidos do fabricante seguindo o padrão pedido pela aplicação (Colunas obrigatórias: "Preço de tabela" e "Cód do fabricante" ou "Descrição". E as colunas opcionais: "Unidade", "Unidade por caixa", "Classificação fiscal", "CEST", "Peso bruto (Kg)", "Comprimento embalagem", "Largura embalagem", "Altura embalagem" e "%IPI", onde o IPI você informa o valor sem a %, por exemplo, 5% é apenas 5). Abre a função de relacionamento de tabelas, informa o nome do fabricante que está no ERP, informa os valores para o cálculo de preço, adiciona as tabelas exportadas do ERP e a do fabricante, e a aplicação irá gerar para você uma tabela com os produtos atualizados e outra tabela com os novos produtos encontrados (se houver) para que possa ser importada no ERP.
+Atualize os itens do ERP (Bling ou Tiny ERP) através do relacionamento por código de fábrica ou descrição. Você exporta do ERP os produtos do fabricante no qual deseja atualizar, cria uma tabela com todos os produtos recebidos do fabricante seguindo o padrão pedido pela aplicação (Colunas obrigatórias: "Preço de tabela" e "Cód do fabricante" ou "Descrição". E as colunas opcionais: "Unidade", "Unidade por caixa", "Classificação fiscal", "CEST", "Peso bruto (Kg)", "GTIN/EAN", "Comprimento embalagem", "Largura embalagem", "Altura embalagem" e "%IPI", onde o IPI você informa o valor sem a %, por exemplo, 5% é apenas 5). Abre a função de relacionamento de tabelas, informa o nome do fabricante que está no ERP, informa os valores para o cálculo de preço, adiciona as tabelas exportadas do ERP e a do fabricante, e a aplicação irá gerar para você uma tabela com os produtos atualizados e outra tabela com os novos produtos encontrados (se houver) para que possa ser importada no ERP.
 
 ### Ferramentas diversas
 Una as tabelas exportadas do ERP em apenas uma tabela com a função de agrupar tabelas, ou divida 1 tabela em várias.
@@ -23,6 +23,10 @@ E usa a seguinte fórmula para cálculo das comissões dos vendedores: `((Valor 
 ## Scripts disponíveis
 
 Na pasta do projeto, você pode executar os seguintes comandos através do terminal:
+
+### `npm install`
+
+Instala as dependências necessárias para que a aplicação seja executada. Basta executar este comando uma só vez.
 
 ### `yarn start`
 
@@ -60,9 +64,15 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 ## Links que podem ser úteis
 
-Para aprender sobre React, você pode checar a [Documentação React](https://reactjs.org/).
-Para aprender mais sobre a API Bling, você pode checar a [Documentação API Bling para Desenvolvedores](https://ajuda.bling.com.br/hc/pt-br/categories/360002186394-API-para-Desenvolvedores).
-Para aprender mais sobre a API Tin, você pode checar a [Documentação API Tiny ERP para Desenvolvedores](https://www.tiny.com.br/ajuda/api/api2).
-Sistema ERP [Bling](https://www.bling.com.br/home);
-Sistema ERP [Tiny ERP](https://www.tiny.com.br/);
+É necessário ter o [NodeJS](https://nodejs.org/en/) instalado no seu computador;<br/>
+Para aprender sobre React, você pode checar a [Documentação React](https://reactjs.org/);<br/>
+Para aprender sobre a API Bling, você pode checar a [Documentação API Bling para Desenvolvedores](https://ajuda.bling.com.br/hc/pt-br/categories/360002186394-API-para-Desenvolvedores);<br/>
+Para aprender sobre a API Tiny ERP, você pode checar a [Documentação API Tiny ERP para Desenvolvedores](https://www.tiny.com.br/ajuda/api/api2);<br/>
+Sistema ERP [Bling](https://www.bling.com.br/home);<br/>
+Sistema ERP [Tiny ERP](https://www.tiny.com.br/);<br/>
 Sitema CRM [HoopDecor](https://hoopdecor.com/).
+
+## O que falta fazer
+
+Habilitar o CORS;<br/>
+Ordenar pela descrição e pelo preço, em ordem crescente ou decrescente, as tabelas enviadas para a função de relacionamento de tabelas, para que a atualização de produtos com códigos de fábrica repetidos seja mais preciso, com mais chances de acertar o produto.

@@ -10,12 +10,12 @@ export default class TinyProvider {
         baseURL: 'https://api.tiny.com.br/api2/'
     })
 
-    private fimURL: string = "&formato=json&token=";
+    private fimURL: string = "";
 
     private autenticar(){
         let autenticacao:string = localStorage.getItem("autenticacao") || "";
         if(autenticacao != ""){
-            this.fimURL = this.fimURL+JSON.parse(autenticacao).token;
+            this.fimURL = "&formato=json&token="+JSON.parse(autenticacao).token;
         }
     }
 

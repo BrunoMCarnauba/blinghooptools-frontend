@@ -8,12 +8,12 @@ export default class BlingProvider {
         baseURL: 'https://bling.com.br/Api/v2/',
     })
     
-    private fimURL: string = "/json/?apikey=";
+    private fimURL: string = "";
 
     private autenticar(){
         let autenticacao:string = localStorage.getItem("autenticacao") || "";
         if(autenticacao != ""){
-            this.fimURL = this.fimURL+JSON.parse(autenticacao).token;
+            this.fimURL = "/json/?apikey="+JSON.parse(autenticacao).token;
         }
     }
 
