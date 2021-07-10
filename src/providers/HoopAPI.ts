@@ -7,7 +7,7 @@ interface Produto{
 export default class HoopProvider {
 
     protected api = Axios.create({
-        baseURL: 'https://dev.hoopdecor.com/api/',
+        baseURL: (process.env.URL_PROXY || "")+'https://dev.hoopdecor.com/api/',
     })
 
     /**

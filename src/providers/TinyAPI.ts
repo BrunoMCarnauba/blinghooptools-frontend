@@ -7,7 +7,7 @@ interface Produto{
 export default class TinyProvider {
 
     protected api = Axios.create({
-        baseURL: 'https://api.tiny.com.br/api2/'
+        baseURL: (process.env.URL_PROXY || "")+'https://api.tiny.com.br/api2/'
     })
 
     private fimURL: string = "";
@@ -24,7 +24,7 @@ export default class TinyProvider {
      * @param token 
      */
     public async testarAPI(token: string): Promise<string>{
-        return Axios.get("https://api.tiny.com.br/api2/produtos.pesquisa.php?pesquisa&token="+token+"&formato=json").then((resposta) => {
+        return this.api.get("produtos.pesquisa.php?pesquisa&token="+token+"&formato=json").then((resposta) => {
             let dadosRecebidos = resposta.data.retorno;
             if(dadosRecebidos.erros != undefined){
                 return dadosRecebidos.erros[0].erro+" (Código "+dadosRecebidos.codigo_erro+")";

@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
+import { estaAutenticado } from '../../Auth';
 import BlingProvider from '../../providers/BlingAPI';
 import TinyProvider from '../../providers/TinyAPI';
 
@@ -55,7 +56,7 @@ export default function TelaInicial(){
                     <h1>Utilitários Bling e HoopDecor</h1>
                 </header>
 
-                {localStorage.getItem("autenticacao") == null &&
+                {estaAutenticado() == false &&
                     <div id="autenticacao">
                         <p>Autentique-se para ter acesso às funções que fazem uso do ERP</p>
                         
@@ -91,7 +92,7 @@ export default function TelaInicial(){
                     <Link className="botao-normal" to="/relaciona-tabelas">Ferramenta para relacionamento de tabelas</Link>
                     <Link className="botao-normal" to="/relatorios-comissoes">Ferramenta para gerar relatório de comissões</Link>
                     <Link className="botao-normal" to="/ferramentas-diversas">Ferramentas diversas</Link>
-                    {localStorage.getItem("autenticacao") != null &&
+                    {estaAutenticado() == true &&
                         <>
                             <Link className="botao-normal" to="/puxa-custos">Ferramenta para puxar preços de custo do orçamento</Link>
                             {/* <Link className="botao-normal" to="/migra-pedidos">Ferramenta para migrar pedidos entre sistemas ERP</Link> */}

@@ -5,7 +5,7 @@ import PedidoBling from '../models/PedidoBling';
 export default class BlingProvider {
 
     protected api = Axios.create({
-        baseURL: 'https://bling.com.br/Api/v2/',
+        baseURL: (process.env.URL_PROXY || "")+'https://bling.com.br/Api/v2/',
     })
     
     private fimURL: string = "";
@@ -41,11 +41,15 @@ export default class BlingProvider {
      * @param token 
      */
     public async testarAPI(tokenAPI: string): Promise<string>{
-        return Axios.get('https://bling.com.br/Api/v2/produtos/json/&apikey='+tokenAPI).then((retorno) => {
+        return this.api.get('produtos/json/&apikey='+tokenAPI).then((retorno) => {
             return "";
         }).catch((erro) => {
-            erro = erro.response.data.retorno.erros.erro;
-            return erro.msg+" (Código "+erro.cod+")";
+            if(erro.response != null){
+                erro = erro.response.data.retorno.erros.erro;
+                return erro.msg+" (Código "+erro.cod+")";
+            }else{
+                return erro.toString();
+            }
         })
     }
 
