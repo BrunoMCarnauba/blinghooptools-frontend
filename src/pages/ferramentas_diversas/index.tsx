@@ -68,7 +68,7 @@ export default function TelaFerramentasDiversas() {
       <MenuSuperior tituloPagina={"Ferramentas diversas"} ajudaPressionado={() => setVisualizarAjuda(!visualizarAjuda)}/>
 
       {visualizarAjuda == true &&
-        <p className="retangulo">Não informado</p>
+        <p className="retangulo">Una várias tabelas em uma única tabela ou divida os dados entre tabelas com uma quantidade limitada de linhas. Para isso, digite o nome que deseja dar para o(s) novo(s) arquivo(s), selecione a(s) tabela(s) desejada(s), caso deseje que os dados sejam divididos em várias tabelas desmarque a opção "Juntar todo conteúdo em uma só tabela" e informe a quantidade máxima de linhas por tabela. No final, pressione o botão "Agrupar tabelas" e aguarde o processo ser concluído. A aplicação fará download do novo arquivo para o seu computador.</p>
       }
 
       <fieldset>
@@ -80,8 +80,8 @@ export default function TelaFerramentasDiversas() {
         </div>
 
         <div className="input-group">
-          <label>Planilha(s) excel</label>
-          <input type="file" multiple onChange={(event) => {setArquivosExcel(event.target.files)}}/> 
+          <label>Planilha(s) excel (.xls, .xlsx)</label>
+          <input type="file" multiple onChange={(event) => {setArquivosExcel(event.target.files)}} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" /> 
         </div>
 
         {juntarTudoEmUm==false && 

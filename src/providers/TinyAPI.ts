@@ -7,7 +7,7 @@ interface Produto{
 export default class TinyProvider {
 
     protected api = Axios.create({
-        baseURL: (process.env.URL_PROXY || "")+'https://api.tiny.com.br/api2/'
+        baseURL: (process.env.REACT_APP_PROXY_URL || "")+'https://api.tiny.com.br/api2/'
     })
 
     private fimURL: string = "";
@@ -31,8 +31,8 @@ export default class TinyProvider {
             }else{
                 return "";
             }
-        }).catch((resposta) => {
-            return "Erro na autenticação";
+        }).catch((erro) => {
+            return erro.toString();
         })
     }
 
@@ -53,6 +53,7 @@ export default class TinyProvider {
             return pedido;
         }catch(erro){
             console.error("Erro em getPedidoPorNumero = "+erro);
+            throw erro.toString();
         }
     }
 
@@ -64,7 +65,7 @@ export default class TinyProvider {
             return pedido;
         }).catch((erro) => {
             console.error("Erro em getPedidoPorID = "+erro);
-            return null;
+            throw erro.toString();
         })
     }
 
@@ -97,23 +98,28 @@ export default class TinyProvider {
             return pedidosCompletos;
         }catch(erro){
             console.error("Erro em getListaPedidos = "+erro);
-            return null;
+            throw erro.toString();
         }
     }
 
     /**
      * Retorna o produto que tem o código SKU passado por parâmetro.
      * Recomendação: Insira o código SKU completo para evitar erros.
+     * Caso tenha ocorrido erro, a função retorna o erro que pode ser tratado com try...catch
      */
     public async getProdutoPorCodigoSKU(codigoSKU: string){
         this.autenticar();
 
         return this.api.get('produtos.pesquisa.php?pesquisa='+codigoSKU+this.fimURL).then((resposta) => {
-            let produto = resposta.data.retorno.produtos[0].produto;
-            return produto;
+            console.log(resposta);
+            if(resposta.data.retorno.erros == undefined){
+                return resposta.data.retorno.produtos[0].produto;
+            }else{
+                throw resposta.data.retorno.erros[0].erro;
+            }
         }).catch((erro) => {
             console.error("Erro em getProdutoPorCodigoSKU = "+erro);
-            return null;
+            throw erro.toString();
         })
     }
 }

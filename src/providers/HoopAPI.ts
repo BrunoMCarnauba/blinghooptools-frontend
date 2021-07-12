@@ -7,14 +7,24 @@ interface Produto{
 export default class HoopProvider {
 
     protected api = Axios.create({
-        baseURL: (process.env.URL_PROXY || "")+'https://dev.hoopdecor.com/api/',
+        baseURL: (process.env.REACT_APP_PROXY_URL || "")+'https://dev.hoopdecor.com/api/',
     })
 
     /**
-     * Retorna uma promise em que se tiver conseguido encontrar o pedido por meio do número informado, retorna um objeto com os dados, caso contrário, não retorna nada.
+     * Retorna uma promise com um objeto com os dados do orçamento da respectiva URL. Caso tenha dado erro, retorna um erro que pode ser tratado com Try...Catch.
      */
     public async getDadosOrcamento(urlOrcamento: string){
-        return Axios.get(urlOrcamento).then((resposta) => {
+        // // Como conferir a URL antes de enviar a requisição: https://stackoverflow.com/questions/50296744/check-axios-request-url-before-sending/50297192
+        // this.api.interceptors.request.use(function (config) {
+        //     // Do something before request is sent
+        //     console.log(config)
+        //     return config;
+        //   }, function (error) {
+        //     // Do something with request error
+        //     return Promise.reject(error);
+        //   });
+
+        return Axios.get((process.env.REACT_APP_PROXY_URL || "")+urlOrcamento).then((resposta) => {
             let htmlOrcamento = resposta.data;
             let inicioDadosOrcamento = htmlOrcamento.split('window.printdata = {')[1];
             let jsonDadosOrcamento = "{"+inicioDadosOrcamento.split('};')[0]+"}";
@@ -22,23 +32,23 @@ export default class HoopProvider {
             return objDadosOrcamento;
         }).catch((erro) => {
             console.error("Erro ao tentar pegar o HTML do orçamento: "+erro);
-            return null;
+            throw erro.toString();
         });
     }
 
     /**
-     * 
+     * Retorna uma promise com um objeto com os dados do relatório da respectiva URL. Caso tenha dado erro, retorna o erro que pode ser tratado com Try...Catch.
      */
-    public async getDadosRelatorio(urlOrcamento: string){
-        return Axios.get(urlOrcamento).then((resposta) => {
-            let htmlOrcamento = resposta.data;
-            let inicioDadosOrcamento = htmlOrcamento.split('window.printdata = {')[1];
-            let jsonDadosOrcamento = "{"+inicioDadosOrcamento.split('};')[0]+"}";
-            let objDadosOrcamento = JSON.parse(jsonDadosOrcamento);
-            return objDadosOrcamento;
+    public async getDadosRelatorio(urlRelatorio: string){
+        return Axios.get((process.env.REACT_APP_PROXY_URL || "")+urlRelatorio).then((resposta) => {
+            let htmlRelatorio = resposta.data;
+            let inicioDadosRelatorio = htmlRelatorio.split('window.printdata = {')[1];
+            let jsonDadosRelatorio = "{"+inicioDadosRelatorio.split('};')[0]+"}";
+            let objDadosRelatorio = JSON.parse(jsonDadosRelatorio);
+            return objDadosRelatorio;
         }).catch((erro) => {
             console.error("Erro ao tentar pegar o HTML do relatório: "+erro);
-            return null;
+            throw erro.toString();
         });
     }
 }

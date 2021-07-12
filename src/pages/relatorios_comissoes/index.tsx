@@ -31,7 +31,7 @@ class ComissaoNegocio{
 
 export default function TelaRelatorioComissoes(){
     const [urlRelatorio, setURLRelatorio] = useState<string>("");
-    const [taxaCartao, setTaxaCartao] = useState<number>(0);
+    const [taxaModoPagamento, setTaxaModoPagamento] = useState<number>(0);
     const [aliquotaComissaoArquiteto, setAliquotaComissaoArquiteto] = useState<number>(5);
     const [aliquotaComissaoVendedor, setAliquotaComissaoVendedor] = useState<number>(0);
     const [relatorioComissoesVendedores, setRelatorioComissoesVendedores] = useState<boolean>(false);
@@ -41,6 +41,7 @@ export default function TelaRelatorioComissoes(){
     const [valorTotalComissoes, setValorTotalComissoes] = useState<number>(0);
 
     const [visualizarAjuda, setVisualizarAjuda] = useState<boolean>(false);
+    const [msgErro, setMsgErro] = useState<string>("");
     const [loadingStatus, setLoadingStatus] = useState<string>("");
 
     useEffect(() => {
@@ -48,56 +49,61 @@ export default function TelaRelatorioComissoes(){
     }, []);
 
     const puxarComissoesArquiteto = async () => {
+        setMsgErro("");
         setLoadingStatus("Coletando dados do relatório HoopDecor...");
-        let hoopProvider = new HoopProvider();
-        let dadosRelatorio = await hoopProvider.getDadosRelatorio(urlRelatorio);
 
-        console.log(dadosRelatorio);
+        try{
+            let hoopProvider = new HoopProvider();
+            let dadosRelatorio = await hoopProvider.getDadosRelatorio(urlRelatorio);
+            // console.log(dadosRelatorio);
 
-        if(dadosRelatorio != null){
-            setLoadingStatus("Calculando comissões...");
+            if(dadosRelatorio.allDeals != undefined){
+                setLoadingStatus("Calculando comissões...");
 
-            let pessoas = dadosRelatorio.users;
-            let negociosPessoa;
-            let comissionado: Comissionado;
-            let listaComissoesAux:Comissionado[] = [];
-            let valorComissao = 0;
-            let totalComissaoPessoa = 0;
-            let totalComissoesAux:number = 0;
+                let pessoas = dadosRelatorio.users;
+                let negociosPessoa;
+                let comissionado: Comissionado;
+                let listaComissoesAux:Comissionado[] = [];
+                let valorComissao = 0;
+                let totalComissaoPessoa = 0;
+                let totalComissoesAux:number = 0;
 
-            for(let x = 0; x < pessoas.length; x++){
-                negociosPessoa = pessoas[x].deals;
+                for(let x = 0; x < pessoas.length; x++){
+                    negociosPessoa = pessoas[x].deals;
 
-                comissionado = new Comissionado();
-                comissionado.nomeComissionado = pessoas[x].fullName;
-                totalComissaoPessoa = 0;
-                
-                let listaNegocios:ComissaoNegocio[] = [];
-
-                for(let y = 0; y < negociosPessoa.length; y++){
-                    valorComissao = (negociosPessoa[y].final_value* (1 - (taxaCartao/100))* (aliquotaComissaoArquiteto/100));   //Valor de comissão do arquiteto
+                    comissionado = new Comissionado();
+                    comissionado.nomeComissionado = pessoas[x].fullName;
+                    totalComissaoPessoa = 0;
                     
-                    if(relatorioComissoesVendedores == true){  //Se for relatório dos vendedores
-                        valorComissao = negociosPessoa[y].final_value - valorComissao;  //Retira o valor da comissão do arquiteto do valor total para chegar no valor da comissão do vendedor
+                    let listaNegocios:ComissaoNegocio[] = [];
+
+                    for(let y = 0; y < negociosPessoa.length; y++){
+                        valorComissao = (negociosPessoa[y].final_value* (1 - (taxaModoPagamento/100))* (aliquotaComissaoArquiteto/100));   //Valor de comissão do arquiteto
+                        
+                        if(relatorioComissoesVendedores == true){  //Se for relatório dos vendedores
+                            valorComissao = negociosPessoa[y].final_value - valorComissao;  //Retira o valor da comissão do arquiteto do valor total para chegar no valor da comissão do vendedor
+                        }
+
+                        totalComissaoPessoa += valorComissao;
+
+                        let comissao = new ComissaoNegocio(negociosPessoa[y].conversion_date, negociosPessoa[y].visible_number, negociosPessoa[y].clients[0].name, negociosPessoa[y].final_value, valorComissao, "");
+
+                        listaNegocios.push(comissao);
                     }
+                    comissionado.comissoesNegocios = listaNegocios;
+                    comissionado.totalComissao = totalComissaoPessoa;
+                    totalComissoesAux += totalComissaoPessoa;
 
-                    totalComissaoPessoa += valorComissao;
-
-                    let comissao = new ComissaoNegocio(negociosPessoa[y].conversion_date, negociosPessoa[y].visible_number, negociosPessoa[y].clients[0].name, negociosPessoa[y].final_value, valorComissao, "");
-
-                    listaNegocios.push(comissao);
+                    if(totalComissaoPessoa != 0){
+                        listaComissoesAux.push(comissionado);
+                    }
                 }
-                comissionado.comissoesNegocios = listaNegocios;
-                comissionado.totalComissao = totalComissaoPessoa;
-                totalComissoesAux += totalComissaoPessoa;
-
-                if(totalComissaoPessoa != 0){
-                    listaComissoesAux.push(comissionado);
-                }
+                setDataRelatorio(dadosRelatorio.date);
+                setListaComissoes(listaComissoesAux);
+                setValorTotalComissoes(totalComissoesAux);
             }
-            setDataRelatorio(dadosRelatorio.date);
-            setListaComissoes(listaComissoesAux);
-            setValorTotalComissoes(totalComissoesAux);
+        }catch(erro){
+            setMsgErro(erro);
         }
 
         setLoadingStatus("");
@@ -123,23 +129,23 @@ export default function TelaRelatorioComissoes(){
                 <legend>Comissões dos arquitetos</legend>
 
                 <div className="input-group">
-                    <label>URL do relatório</label>
+                    <label htmlFor="urlRelatorio">URL do relatório</label>
                     <input id="urlRelatorio" type="text" size={50} value={urlRelatorio} onChange={(event) => setURLRelatorio(event.target.value)}></input>
                 </div>
 
                 <div className="input-group">
-                    <label>Alíquota de comissão do arquiteto</label>
+                    <label htmlFor="aliquotaComissaoArquiteto">Alíquota de comissão do arquiteto</label>
                     <input id="aliquotaComissaoArquiteto" type="number" size={50} value={aliquotaComissaoArquiteto} onChange={(event) => setAliquotaComissaoArquiteto(parseFloat(event.target.value))}></input>
                 </div>
 
                 <div className="input-group">
-                    <label>Alíquota de comissão do vendedor</label>
+                    <label htmlFor="aliquotaComissaoVendedor">Alíquota de comissão do vendedor</label>
                     <input id="aliquotaComissaoVendedor" type="number" size={50} value={aliquotaComissaoVendedor} onChange={(event) => setAliquotaComissaoVendedor(parseFloat(event.target.value))}></input>
                 </div>
 
                 <div className="input-group">
-                    <label>Taxa fixa do cartão de crédito</label>
-                    <input id="taxaCartao" type="number" size={50} value={taxaCartao} onChange={(event) => setTaxaCartao(parseFloat(event.target.value))}></input>
+                    <label htmlFor="taxaModopagamento">Taxa fixa do modo de pagamento</label>
+                    <input id="taxaModoPagamento" type="number" size={50} value={taxaModoPagamento} onChange={(event) => setTaxaModoPagamento(parseFloat(event.target.value))}></input>
                 </div>
 
                 <div className="input-group">
@@ -156,6 +162,7 @@ export default function TelaRelatorioComissoes(){
                 }
 
                 <span>{loadingStatus}</span>
+                <span className="texto-erro">{msgErro}</span>
             </div>
 
             {listaComissoes.length > 0 &&
@@ -164,7 +171,7 @@ export default function TelaRelatorioComissoes(){
                         <p><strong>Relatório de comissões de </strong> {dataRelatorio}</p>
                         <p><strong>Alíquota da comissão dos arquitetos: </strong> {aliquotaComissaoArquiteto}%</p>
                         <p><strong>Alíquota da comissão dos vendedores: </strong> {aliquotaComissaoVendedor}%</p>
-                        <p><strong>Taxa fixa de cartão: </strong> {taxaCartao}%</p>
+                        <p><strong>Taxa fixa do modo de pagamento: </strong> {taxaModoPagamento}%</p>
                     </header>
                     
                     {listaComissoes.map((item: Comissionado, index: number) => 

@@ -47,6 +47,7 @@ export default function TelaInicial(){
     const sair = () => {
         setTokenAPI("");
         localStorage.removeItem("autenticacao");
+        window.location.reload();
     }
 
     return (
@@ -78,12 +79,12 @@ export default function TelaInicial(){
                             <button type="submit" className="botao-normal" disabled style={{backgroundColor: '#d3dbde'}} onClick={() => autenticar()}>Autenticar</button>
                             }
                         </form>
-
-                        {erroAutenticacao != "" &&
-                            <>
-                                <p id="texto-erro">{erroAutenticacao}</p>
+                        
+                        {loadingStatus != "" || erroAutenticacao  != "" && 
+                            <div>
                                 <p>{loadingStatus}</p>
-                            </>
+                                <p className="texto-erro">{erroAutenticacao}</p>
+                            </div>
                         }
                     </div>
                 }
@@ -103,7 +104,7 @@ export default function TelaInicial(){
             </main>
 
             <footer>
-                <p>Desenvolvido por Bruno - Versão 06/2021-1</p>
+                <p>Desenvolvido por Bruno - Versão 07/2021-1</p>
             </footer>
         </div>
     );

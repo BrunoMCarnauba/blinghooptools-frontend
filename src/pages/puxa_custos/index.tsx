@@ -38,6 +38,7 @@ export default function TelaPuxaCustos(){
     const [produtosAtualizados, setProdutosAtualizados] = useState<ProdutoAtualizado[]>([]);
 
     const [visualizarAjuda, setVisualizarAjuda] = useState<boolean>(false);
+    const [msgErro, setMsgErro] = useState<string>("");
     const [loadingStatus, setLoadingStatus] = useState<string>("");
 
     useEffect(() => {
@@ -45,79 +46,85 @@ export default function TelaPuxaCustos(){
     }, []);
 
     const puxarCustos = async () => {
+        setMsgErro("");
         setLoadingStatus("Coletando dados do orçamento HoopDecor...");
-        let hoopProvider = new HoopProvider();
-        let dadosOrcamento = await hoopProvider.getDadosOrcamento(urlOrcamento);
 
-        if(dadosOrcamento != null){
-            setNumeroOrcamento(dadosOrcamento.visible_number);
-            setNomeCliente(dadosOrcamento.clients[0].name);
-            setTotalFrete(dadosOrcamento.shipping_fare);
-            setNomeVendedor(dadosOrcamento.users[0].fullName);
-            let itensPorAmbiente = dadosOrcamento.quotation.items;
-            let produtosAtualizados: ProdutoAtualizado[] = [];
-            let produtoAtualizado: ProdutoAtualizado;
+        try{
+            let hoopProvider = new HoopProvider();
+            let dadosOrcamento = await hoopProvider.getDadosOrcamento(urlOrcamento);
 
-            // Pegando todos os produtos do orçamento HoopDecor
-            for(let x = 0; x<itensPorAmbiente.length; x++){
-                let itensDoAmbiente = itensPorAmbiente[x].items;
+            if(dadosOrcamento.visible_number != undefined){
+                setNumeroOrcamento(dadosOrcamento.visible_number);
+                setNomeCliente(dadosOrcamento.clients[0].name);
+                setTotalFrete(dadosOrcamento.shipping_fare);
+                setNomeVendedor(dadosOrcamento.users[0].fullName);
+                let itensPorAmbiente = dadosOrcamento.quotation.items;
+                let produtosAtualizados: ProdutoAtualizado[] = [];
+                let produtoAtualizado: ProdutoAtualizado;
 
-                for(let y = 0; y<itensDoAmbiente.length; y++){
-                    produtoAtualizado = new ProdutoAtualizado();
-                    produtoAtualizado.codigoSKU = itensDoAmbiente[y].reference;
-                    produtoAtualizado.descricao = itensDoAmbiente[y].description+" ["+itensDoAmbiente[y].manufacturer.trade+"]";
-                    produtoAtualizado.quantidade = parseFloat(itensDoAmbiente[y].quantity);
-                    produtoAtualizado.unidade = itensDoAmbiente[y].unit;
-                    produtoAtualizado.fabricante = itensDoAmbiente[y].manufacturer.trade;
-                    produtoAtualizado.ambiente = itensDoAmbiente[y].section;
-                    produtosAtualizados.push(produtoAtualizado);
+                // Pegando todos os produtos do orçamento HoopDecor
+                for(let x = 0; x<itensPorAmbiente.length; x++){
+                    let itensDoAmbiente = itensPorAmbiente[x].items;
+
+                    for(let y = 0; y<itensDoAmbiente.length; y++){
+                        produtoAtualizado = new ProdutoAtualizado();
+                        produtoAtualizado.codigoSKU = itensDoAmbiente[y].reference;
+                        produtoAtualizado.descricao = itensDoAmbiente[y].description+" ["+itensDoAmbiente[y].manufacturer.trade+"]";
+                        produtoAtualizado.quantidade = parseFloat(itensDoAmbiente[y].quantity);
+                        produtoAtualizado.unidade = itensDoAmbiente[y].unit;
+                        produtoAtualizado.fabricante = itensDoAmbiente[y].manufacturer.trade;
+                        produtoAtualizado.ambiente = itensDoAmbiente[y].section;
+                        produtosAtualizados.push(produtoAtualizado);
+                    }
                 }
-            }
 
-            if(agruparItensDuplicados == true){
-                setLoadingStatus("Agrupando itens repetidos...");
-                // Agrupando itens duplicados em um só item
-                for(let x = 0; x<produtosAtualizados.length; x++){
-                    for(let y = x+1; y<produtosAtualizados.length; y++){
-                        if(produtosAtualizados[x].codigoSKU == produtosAtualizados[y].codigoSKU){
-                            produtosAtualizados[x].quantidade = produtosAtualizados[x].quantidade+produtosAtualizados[y].quantidade;
-                            produtosAtualizados.splice(y,1);    //Apagando produto duplicado
+                if(agruparItensDuplicados == true){
+                    setLoadingStatus("Agrupando itens repetidos...");
+                    // Agrupando itens duplicados em um só item
+                    for(let x = 0; x<produtosAtualizados.length; x++){
+                        for(let y = x+1; y<produtosAtualizados.length; y++){
+                            if(produtosAtualizados[x].codigoSKU == produtosAtualizados[y].codigoSKU){
+                                produtosAtualizados[x].quantidade = produtosAtualizados[x].quantidade+produtosAtualizados[y].quantidade;
+                                produtosAtualizados.splice(y,1);    //Apagando produto duplicado
+                            }
                         }
                     }
                 }
-            }
 
-            let tinyProvider = new TinyProvider();
-            let blingProvider = new BlingProvider();
-            let produtoERP;
-            let precoTotalVenda:number = 0;
-            let precoTotalCusto:number = 0;
-            setLoadingStatus("Consultando preços no ERP...");
-            //Consultando produtos no ERP e pegando os preços de custo e de venda
-            for(let x = 0; x<produtosAtualizados.length; x++){
-                if(blingERP == true){   //Se a consulta for no Bling
-                    produtoERP = await blingProvider.getProdutoPorCodigo(produtosAtualizados[x].codigoSKU);
-                    produtosAtualizados[x].precoVenda = parseFloat(produtoERP.preco);
-                    produtosAtualizados[x].precoCusto = parseFloat(produtoERP.precoCusto);
-                }else{  //Se a consulta for no Tiny
-                    produtoERP = await tinyProvider.getProdutoPorCodigoSKU(produtosAtualizados[x].codigoSKU);
-                    produtosAtualizados[x].precoVenda = produtoERP.preco;
-                    produtosAtualizados[x].precoCusto = produtoERP.preco_custo;
+                let tinyProvider = new TinyProvider();
+                let blingProvider = new BlingProvider();
+                let produtoERP;
+                let precoTotalVenda:number = 0;
+                let precoTotalCusto:number = 0;
+                setLoadingStatus("Consultando preços no ERP...");
+                //Consultando produtos no ERP e pegando os preços de custo e de venda
+                for(let x = 0; x<produtosAtualizados.length; x++){
+                    if(blingERP == true){   //Se a consulta for no Bling
+                        produtoERP = await blingProvider.getProdutoPorCodigo(produtosAtualizados[x].codigoSKU);
+                        produtosAtualizados[x].precoVenda = parseFloat(produtoERP.preco);
+                        produtosAtualizados[x].precoCusto = parseFloat(produtoERP.precoCusto);
+                    }else{  //Se a consulta for no Tiny
+                        produtoERP = await tinyProvider.getProdutoPorCodigoSKU(produtosAtualizados[x].codigoSKU);
+                        produtosAtualizados[x].precoVenda = produtoERP.preco;
+                        produtosAtualizados[x].precoCusto = produtoERP.preco_custo;
+                    }
+
+                    produtosAtualizados[x].precoTotalVenda = produtosAtualizados[x].quantidade*produtosAtualizados[x].precoVenda;
+                    produtosAtualizados[x].precoTotalCusto = produtosAtualizados[x].quantidade*produtosAtualizados[x].precoCusto;
+
+                    precoTotalVenda = precoTotalVenda + produtosAtualizados[x].precoTotalVenda;
+                    precoTotalCusto = precoTotalCusto + produtosAtualizados[x].precoTotalCusto;
                 }
 
-                produtosAtualizados[x].precoTotalVenda = produtosAtualizados[x].quantidade*produtosAtualizados[x].precoVenda;
-                produtosAtualizados[x].precoTotalCusto = produtosAtualizados[x].quantidade*produtosAtualizados[x].precoCusto;
+                setProdutosAtualizados(produtosAtualizados);
+                setTotalVendaSemFrete(precoTotalVenda);
+                setTotalCusto(precoTotalCusto);
 
-                precoTotalVenda = precoTotalVenda + produtosAtualizados[x].precoTotalVenda;
-                precoTotalCusto = precoTotalCusto + produtosAtualizados[x].precoTotalCusto;
+                // console.log(dadosOrcamento);
+                // console.log(produtosAtualizados);
             }
-
-            setProdutosAtualizados(produtosAtualizados);
-            setTotalVendaSemFrete(precoTotalVenda);
-            setTotalCusto(precoTotalCusto);
-
-            // console.log(dadosOrcamento);
-            // console.log(produtosAtualizados);
+        }catch(erro){
+            setMsgErro(erro.toString());
         }
 
         setLoadingStatus("");
@@ -166,6 +173,7 @@ export default function TelaPuxaCustos(){
                 }
 
                 <span>{loadingStatus}</span>
+                <span className="texto-erro">{msgErro}</span>
             </div>
 
             {produtosAtualizados.length > 0 &&

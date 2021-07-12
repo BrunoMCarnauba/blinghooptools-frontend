@@ -207,6 +207,7 @@ export default function TelaRelacionaTabelas() {
    * Adiciona ao objeto que tem as colunas da planilha do ERP os dados da planilha do fabricante, de acordo com as opções configuradas (se deseja atualizar NCM, CEST, Dimensões, Unidade por caixa ou apenas os preços). Se for um novo produto, atualiza todos os dados que forem encontrados na tabela do fabricante.
    * @param atualizacaoOuNovo : 'Novo' se for um produto que não foi encontrado na planilha do ERP ou 'Atualizacao' se for um produto que já estava presente na planilha do ERP
    * @param cloneObjERP 
+   * @param precoTabela
    * @param precoVenda 
    * @param precoCusto 
    * @param descricao 
@@ -214,12 +215,13 @@ export default function TelaRelacionaTabelas() {
    * @param unidadePorCaixa 
    * @param fabricante 
    * @param classificacaoFiscal 
-   * @param CEST 
+   * @param CEST
    * @param pesoBrutoKG 
    * @param comprimentoEmbalagem 
    * @param larguraEmbalagem 
    * @param alturaEmbalagem 
    * @param gtinEAN 
+   * @param origem
    * @returns 
    */
   const atualizarDados = (atualizacaoOuNovo: string, cloneObjERP: any, precoTabela: number, precoVenda: number, precoCusto: number, descricao: string, unidade: string, unidadePorCaixa: number, fabricante: string, classificacaoFiscal: string, CEST: string, pesoBrutoKG: number, comprimentoEmbalagem: number, larguraEmbalagem: number, alturaEmbalagem: number, gtinEAN: string, origem: string) => {
@@ -338,7 +340,7 @@ export default function TelaRelacionaTabelas() {
       <MenuSuperior tituloPagina={"Relacionamento de tabelas"} ajudaPressionado={() => setVisualizarAjuda(!visualizarAjuda)}/>
 
       {visualizarAjuda == true &&
-        <p className="retangulo">Preencha todos os campos. Caso não deseje que o preço seja calculado, deixe o campo fator com o valor 1 e os demais com o valor 0, isso é útil para os preços de representação. Marque as opções desejadas, adicione uma ou mais tabelas exportadas do ERP com os produtos do fabricante, adicione a tabela com os dados atualizados do fabricante (precisa conter no mínimo as colunas com os nomes a seguir: "Preço de tabela" e "Cód do fabricante" ou "Descrição". As demais colunas opcionais são: "Unidade", "Unidade por caixa", "Classificação fiscal", "CEST", "Peso bruto (Kg)", "GTIN/EAN", "Comprimento embalagem", "Largura embalagem", "Altura embalagem" e "%IPI". O IPI deve ser o valor sem a %, por exemplo, 5% fica apenas 5. Por último aperte em carregar e aguarde a tarefa ser concluída. Será gerado uma tabela com os novos itens (se houver) e outra com os itens que serão atualizados. Escolha a pasta onde deseja salvar essas tabelas e antes de importar abra cada uma, confira se está ok e exclua a última coluna chamada "EMPTY_".</p>
+        <p className="retangulo">Preencha todos os campos. Caso não deseje que o preço seja calculado, deixe o campo fator com o valor 1 e os demais com o valor 0, isso é útil para os preços de representação. Marque as opções desejadas, adicione uma ou mais tabelas exportadas do ERP com os produtos do fabricante, adicione a tabela com os dados atualizados do fabricante (precisa conter no mínimo as colunas com os nomes a seguir: "Preço de tabela" e "Cód do fabricante" ou "Descrição". As demais colunas opcionais são: "Unidade", "Unidade por caixa", "Classificação fiscal", "CEST", "Origem", "Peso bruto (Kg)", "GTIN/EAN", "Comprimento embalagem", "Largura embalagem", "Altura embalagem" e "%IPI". O IPI deve ser o valor sem a %, por exemplo, 5% fica apenas 5. Por último aperte em carregar e aguarde a tarefa ser concluída. Será gerado uma tabela com os novos itens (se houver) e outra com os itens que serão atualizados. A aplicação fará download do(s) novo(s) arquivo(s) para o seu computador. Antes de importar, abra cada uma, confira se está ok e exclua a última coluna chamada "EMPTY_".</p>
       }
 
       <fieldset>
@@ -370,7 +372,7 @@ export default function TelaRelacionaTabelas() {
 
         <div className="input-group">
           <label>Fator</label>
-          <input type="number" onChange={(event) => setFator(parseFloat(event.target.value))} />
+          <input type="number" min={1} onChange={(event) => setFator(parseFloat(event.target.value))} />
         </div>
 
         <div className="input-group">
@@ -446,13 +448,13 @@ export default function TelaRelacionaTabelas() {
         <legend>Planilhas</legend>
 
         <div className="input-group">
-          <label>Planilha(s) exportada(s) do ERP</label>
-          <input type="file" multiple onChange={(event) => {setArquivosERP(event.target.files)}}/> 
+          <label>Planilha(s) exportada(s) do ERP (.xls, .xlsx)</label>
+          <input type="file" multiple onChange={(event) => {setArquivosERP(event.target.files)}} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
         </div>
 
         <div className="input-group">
-          <label>Planilha do fabricante</label>
-          <input type="file" onChange={(event) => {setArquivoFabricante(event.target.files)}}/> 
+          <label>Planilha do fabricante (.xls, .xlsx)</label>
+          <input type="file" onChange={(event) => {setArquivoFabricante(event.target.files)}} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" /> 
         </div>
       </fieldset>
 

@@ -5,7 +5,7 @@ import PedidoBling from '../models/PedidoBling';
 export default class BlingProvider {
 
     protected api = Axios.create({
-        baseURL: (process.env.URL_PROXY || "")+'https://bling.com.br/Api/v2/',
+        baseURL: (process.env.REACT_APP_PROXY_URL || "")+'https://bling.com.br/Api/v2/',
     })
     
     private fimURL: string = "";
@@ -41,6 +41,16 @@ export default class BlingProvider {
      * @param token 
      */
     public async testarAPI(tokenAPI: string): Promise<string>{
+        // // Como conferir a URL antes de enviar a requisição: https://stackoverflow.com/questions/50296744/check-axios-request-url-before-sending/50297192
+        // this.api.interceptors.request.use(function (config) {
+        //     // Do something before request is sent
+        //     console.log(config)
+        //     return config;
+        //   }, function (error) {
+        //     // Do something with request error
+        //     return Promise.reject(error);
+        //   });
+
         return this.api.get('produtos/json/&apikey='+tokenAPI).then((retorno) => {
             return "";
         }).catch((erro) => {
@@ -90,17 +100,22 @@ export default class BlingProvider {
 
     /**
      * Retorna o produto que tem o código SKU passado por parâmetro.
+     * Se ocorrer algum erro, retorna o erro que pode ser tratado com try...catch
      * @param codigo 
      */
     public getProdutoPorCodigo(codigo: string){
         this.autenticar();
 
         return this.api.get('produto/'+codigo+this.fimURL).then((resposta: any) => {
-            return resposta.data.retorno.produtos[0].produto;
+            if(resposta.data.retorno.erros == undefined){
+                return resposta.data.retorno.produtos[0].produto;
+            }else{
+                throw resposta.data.retorno.erros[0].erro.msg+" - Confira se está autenticado com o token correto";
+            }
         }).catch((erro) => {
             console.error("Erro no método getProdutoPorCodigo(codigo) da classe BlingAPI: ");
             console.error(erro);
-            return null;
+            throw erro.toString();
         })
     }
 

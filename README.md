@@ -2,10 +2,14 @@
 
 Esse projeto foi desenvolvido com [React JS com TypeScript](https://github.com/facebook/create-react-app) 
 
+## Configuração
+A aplicação usa do [proxy "CORS Anywhere"](https://github.com/Rob--W/cors-anywhere) para poder fazer as requisições para a API de cada sistema ERP. Por isso é criado um arquivo .env com a variável "REACT_APP_PROXY_URL" onde é informado a URL onde está hospedado o Proxy. A extensão [Allow CORS](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf?hl=pt) pode ajudar caso queira utilizar a aplicação em localhost sem ficar executando o proxy.\
+Para definir a variável, crie um arquivo chamado .env na pasta raíz do projeto. Dentro dele defina a variável como mostrado no exemplo seguinte: `REACT_APP_PROXY_URL = https://brunomcarnauba-cors-anywhere.herokuapp.com/`
+
 ## Recursos disponíveis
 
 ### Relacionamento de tabelas para importação no ERP
-Atualize os itens do ERP (Bling ou Tiny ERP) através do relacionamento por código de fábrica ou descrição. Você exporta do ERP os produtos do fabricante no qual deseja atualizar, cria uma tabela com todos os produtos recebidos do fabricante seguindo o padrão pedido pela aplicação (Colunas obrigatórias: "Preço de tabela" e "Cód do fabricante" ou "Descrição". E as colunas opcionais: "Unidade", "Unidade por caixa", "Classificação fiscal", "CEST", "Peso bruto (Kg)", "GTIN/EAN", "Comprimento embalagem", "Largura embalagem", "Altura embalagem" e "%IPI", onde o IPI você informa o valor sem a %, por exemplo, 5% é apenas 5). Abre a função de relacionamento de tabelas, informa o nome do fabricante que está no ERP, informa os valores para o cálculo de preço, adiciona as tabelas exportadas do ERP e a do fabricante, e a aplicação irá gerar para você uma tabela com os produtos atualizados e outra tabela com os novos produtos encontrados (se houver) para que possa ser importada no ERP.
+Atualize os itens do ERP (Bling ou Tiny ERP) através do relacionamento por código de fábrica ou descrição. Você exporta do ERP os produtos do fabricante no qual deseja atualizar, cria uma tabela com todos os produtos recebidos do fabricante seguindo o padrão pedido pela aplicação (Colunas obrigatórias: "Preço de tabela" e "Cód do fabricante" ou "Descrição". E as colunas opcionais: "Unidade", "Unidade por caixa", "Classificação fiscal", "CEST", "Origem", "GTIN/EAN", "Peso bruto (Kg)", "Comprimento embalagem", "Largura embalagem", "Altura embalagem" e "%IPI", onde o IPI você informa o valor sem a %, por exemplo, 5% é apenas 5). Abre a função de relacionamento de tabelas, informa o nome do fabricante que está no ERP, informa os valores para o cálculo de preço, adiciona as tabelas exportadas do ERP e a do fabricante, e a aplicação irá gerar para você uma tabela com os produtos atualizados e outra tabela com os novos produtos encontrados (se houver) para que possa ser importada no ERP.
 
 ### Ferramentas diversas
 Una as tabelas exportadas do ERP em apenas uma tabela com a função de agrupar tabelas, ou divida 1 tabela em várias.
@@ -32,7 +36,6 @@ Instala as dependências necessárias para que a aplicação seja executada. Bas
 
 Inicia o aplicativo no modo de desenvolvimento.\
 Abra [http://localhost:3000](http://localhost:3000) para acessá-lo pelo navegador.
-Para usar funções que usam da API do ERP pelo localhost pode ser necessário utilizar a extensão [Allow CORS](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf?hl=pt).
 
 A página vai recarregar se você fizer edições no código.\
 Você também poderá visualizar os erros no console.
@@ -74,5 +77,5 @@ Sitema CRM [HoopDecor](https://hoopdecor.com/).
 
 ## O que falta fazer
 
-Habilitar o CORS;<br/>
-Ordenar pela descrição e pelo preço, em ordem crescente ou decrescente, as tabelas enviadas para a função de relacionamento de tabelas, para que a atualização de produtos com códigos de fábrica repetidos seja mais preciso, com mais chances de acertar o produto.
+- Ordenar pela descrição e pelo preço, em ordem crescente ou decrescente, as tabelas enviadas para a função de relacionamento de tabelas, para que a atualização de produtos com códigos de fábrica repetidos seja mais preciso, com mais chances de acertar o produto.\
+- Adicionar compatibilidade com arquivos .CSV
