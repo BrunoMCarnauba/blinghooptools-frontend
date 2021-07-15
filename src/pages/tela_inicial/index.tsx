@@ -96,6 +96,7 @@ export default function TelaInicial(){
                     {estaAutenticado() == true &&
                         <>
                             <Link className="botao-normal" to="/puxa-custos">Ferramenta para puxar preços de custo do orçamento</Link>
+                            <Link className="botao-normal" to="/envia-ordem-compra">Ferramenta para enviar ordem de compra para o ERP</Link>
                             {/* <Link className="botao-normal" to="/migra-pedidos">Ferramenta para migrar pedidos entre sistemas ERP</Link> */}
                             <button className="botao-normal" onClick={() => sair()}>Sair</button>
                         </>
@@ -104,7 +105,7 @@ export default function TelaInicial(){
             </main>
 
             <footer>
-                <p>Desenvolvido por Bruno - Versão 07/2021-1</p>
+                <p>Desenvolvido por Bruno - Versão 07/2021-2</p>
             </footer>
         </div>
     );

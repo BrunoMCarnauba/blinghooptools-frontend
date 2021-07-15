@@ -51,4 +51,21 @@ export default class HoopProvider {
             throw erro.toString();
         });
     }
+
+    /**
+     * Retorna uma promise com um objeto com os dados da ordem de compra da respectiva URL. Caso tenha dado erro, retorna o erro que pode ser tratado com Try...Catch.
+     */
+     public async getDadosOrdemDeCompra(urlOrdemDeCompra: string){
+        return Axios.get((process.env.REACT_APP_PROXY_URL || "")+urlOrdemDeCompra).then((resposta) => {
+            let htmlOrdemDeCompra = resposta.data;
+            let inicioDadosOrdemDeCompra = htmlOrdemDeCompra.split('window.printdata = {')[1];
+            let jsonDadosOrdemDeCompra = "{"+inicioDadosOrdemDeCompra.split('};')[0]+"}";
+            let objDadosOrdemDeCompra = JSON.parse(jsonDadosOrdemDeCompra);
+            return objDadosOrdemDeCompra;
+        }).catch((erro) => {
+            console.error("Erro ao tentar pegar o HTML da ordem de compra: "+erro);
+            throw erro.toString();
+        });
+    }
+
 }

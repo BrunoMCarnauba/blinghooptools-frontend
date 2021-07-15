@@ -8,6 +8,7 @@ import TelaPuxaCustos from './pages/puxa_custos';
 import TelaRelatorioComissoes from './pages/relatorios_comissoes';
 import TelaMigraPedidos from './pages/migra_pedidos';
 import TelaFerramentasDiversas from './pages/ferramentas_diversas';
+import TelaEnviaOrdemDeCompra from './pages/ordem_de_compra';
 
 import { estaAutenticado } from './Auth';
 
@@ -54,6 +55,7 @@ function App() {
         <Route exact path="/relatorios-comissoes" component={TelaRelatorioComissoes} />
         <Route exact path="/ferramentas-diversas" component={TelaFerramentasDiversas} />
         <PrivateRoute exact path="/puxa-custos" component={TelaPuxaCustos} />
+        <PrivateRoute exact path="/envia-ordem-compra" component={TelaEnviaOrdemDeCompra} />
         <PrivateRoute exact path="/migra-pedidos" component={TelaMigraPedidos} />
       </Switch>
     </Router>

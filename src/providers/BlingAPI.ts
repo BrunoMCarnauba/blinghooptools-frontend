@@ -1,6 +1,7 @@
 import Axios from 'axios';
 import {objToXML, removerAtributosIndefinidos} from '../utils/utilitarios';
 import PedidoBling from '../models/PedidoBling';
+import PedidoCompraBling from '../models/PedidoCompraBling';
 
 export default class BlingProvider {
 
@@ -64,10 +65,11 @@ export default class BlingProvider {
     }
 
     /**
-     * Inclui um pedido de venda ao sistema Bling
+     * Inclui um pedido de venda no sistema Bling
+     * https://ajuda.bling.com.br/hc/pt-br/articles/360047064693-POST-pedido
      * @param pedido 
      */
-    public async incluirPedido(pedido: PedidoBling){
+     public async incluirPedido(pedido: PedidoBling){
         try{
             this.autenticar();
 
@@ -92,6 +94,42 @@ export default class BlingProvider {
             });
         }catch(error){
             console.error("Erro ao incluirPedido. Erro = "+error);
+            if(error.response){
+                console.error(error.response.data.retorno.erros);
+            }
+        }
+    }
+
+    /**
+     * Inclui um pedido de compra no sistema Bling
+     * https://ajuda.bling.com.br/hc/pt-br/articles/360047012593-POST-pedidocompra
+     * @param pedido 
+     */
+    public async incluirPedidoCompra(pedidocompra: PedidoCompraBling){
+        try{
+            this.autenticar();
+
+            if(pedidocompra.observacoes){
+                pedidocompra.observacoes = pedidocompra.observacoes.replace(/(\r\n|\n|\r)/gm, ""); //Remove as quebras de linha das observações - https://stackoverflow.com/questions/10805125/how-to-remove-all-line-breaks-from-a-string
+            }
+
+            let pedidoCompraLimpo = removerAtributosIndefinidos(pedidocompra);
+            let xmlPedidoCompra = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><pedidocompra>";
+            xmlPedidoCompra += objToXML(pedidoCompraLimpo);
+            xmlPedidoCompra +="</pedidocompra>"
+
+            // console.log(xmlPedido);
+            //Enviar dados do formulário pelo corpo da requisição: https://stackoverflow.com/questions/47630163/axios-post-request-to-send-form-data
+            let bodyFormData = new FormData();
+            bodyFormData.append('xml', xmlPedidoCompra);
+
+            await this.api.post("pedidocompra"+this.fimURL, bodyFormData, {headers: {"Content-Type": "multipart/form-data"}}).then((resposta) => {
+                if(resposta.data){
+                    console.log(resposta.data.retorno);
+                }
+            });
+        }catch(error){
+            console.error("Erro ao incluirPedidoCompra. Erro = "+error);
             if(error.response){
                 console.error(error.response.data.retorno.erros);
             }

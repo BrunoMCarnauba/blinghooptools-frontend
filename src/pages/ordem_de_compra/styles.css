@@ -1,0 +1,83 @@
+#tela-puxa-custos .retangulo{
+    padding: 10px;
+    margin: 7px 0px;
+    background-color: var(--color-primary-light);
+    border-radius: 5px;
+    text-align: justify;
+}
+
+#tela-puxa-custos .container-produto{
+    padding: 5px;
+    border: 1px;
+    border-radius: 5px;
+}
+
+#tela-puxa-custos .container-ambiente{
+    padding: 10px;
+    border: 1px;
+    border-radius: 5px;
+}
+
+#tela-puxa-custos #resultado {
+    border: solid 1px black;
+    padding: 10px;
+    margin: 10px;
+}
+
+#tela-puxa-custos #resultado header p, #tela-puxa-custos #resultado footer p{
+    margin: 5px;
+}
+
+#tela-puxa-custos #resultado #container-produto{
+    padding: 10px;
+    margin-bottom: 7px;
+    border: solid 1px black;
+}
+
+#tela-puxa-custos #resultado #container-produto > div{  /* Selector '>' aplica o estilo para o primeiro nível de div's de dentro do #container-produto */
+    margin-bottom: 10px;
+    display: flex;
+}
+
+#tela-puxa-custos #resultado #container-produto > div:last-child{ /* A última div do primeiro nível do container produto*/
+    margin-bottom: 0px;
+}
+
+#tela-puxa-custos #resultado #container-produto p{
+    margin: 0px 10px 0px 0px;
+}
+
+#tela-puxa-custos #resultado #container-produto div p:last-child{
+    margin-right: 0px;
+}   
+
+#tela-puxa-custos #resultado #container-produto #linha-descricao p:last-child{
+    margin-left: auto; /* Usado para alinhar o último item que está em um display flex na direita da página */
+}
+
+#tela-puxa-custos #resultado footer{
+    display: flex;
+}
+
+#tela-puxa-custos #resultado footer p:last-child{
+    margin: auto 0px;
+    margin-left: auto;  /* Usado para alinhar o último item na direita da página: https://stackoverflow.com/questions/33924655/position-last-flex-item-at-the-end-of-container */
+    text-align: end;
+    
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    #tela-puxa-custos #resultado * {
+        visibility: visible;
+    }
+
+    #tela-puxa-custos #resultado{
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}
