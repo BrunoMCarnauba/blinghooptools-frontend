@@ -93,13 +93,37 @@ export default class BlingProvider {
                 }
             });
         }catch(error){
-            console.error("Erro ao incluirPedido. Erro = "+error);
+            console.error("Erro ao tentar incluirPedido. Erro = "+error);
             if(error.response){
                 console.error(error.response.data.retorno.erros);
             }
         }
     }
 
+    /**
+     * Retorna os dados de um contato a partir do ID, CPF ou CNPJ passado por parâmetro
+     * @param identificador (ID, CPF ou CNPJ)
+     */
+    public async buscarContato(identificador: string){
+        try{
+            this.autenticar();
+
+            let resultado = await this.api.get("contato/"+identificador+this.fimURL);
+            if(resultado.data.retorno.erros){
+                throw "Contato: "+resultado.data.retorno.erros[0].erro.msg;
+            }else{
+                return resultado.data.retorno.contatos[0].contato;
+            }
+        }catch(erro){
+            console.error("Erro ao tentar buscarContato. Erro = ");
+            console.error(erro);
+            if(erro.msg){
+                throw erro.msg.toString();
+            }
+            throw erro.toString(); //Se não tiver o erro.msg
+        }
+    }
+    
     /**
      * Inclui um pedido de compra no sistema Bling
      * https://ajuda.bling.com.br/hc/pt-br/articles/360047012593-POST-pedidocompra
@@ -109,6 +133,10 @@ export default class BlingProvider {
         try{
             this.autenticar();
 
+            let dadosFornecedor = await this.buscarContato(pedidocompra.fornecedor.cpfcnpj || "");
+            pedidocompra.fornecedor.id = dadosFornecedor.id;
+            pedidocompra.fornecedor.nome = dadosFornecedor.nome;
+
             if(pedidocompra.observacoes){
                 pedidocompra.observacoes = pedidocompra.observacoes.replace(/(\r\n|\n|\r)/gm, ""); //Remove as quebras de linha das observações - https://stackoverflow.com/questions/10805125/how-to-remove-all-line-breaks-from-a-string
             }
@@ -116,23 +144,26 @@ export default class BlingProvider {
             let pedidoCompraLimpo = removerAtributosIndefinidos(pedidocompra);
             let xmlPedidoCompra = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><pedidocompra>";
             xmlPedidoCompra += objToXML(pedidoCompraLimpo);
-            xmlPedidoCompra +="</pedidocompra>"
+            xmlPedidoCompra += "</pedidocompra>"
+            // console.log(xmlPedidoCompra);
 
-            // console.log(xmlPedido);
             //Enviar dados do formulário pelo corpo da requisição: https://stackoverflow.com/questions/47630163/axios-post-request-to-send-form-data
             let bodyFormData = new FormData();
             bodyFormData.append('xml', xmlPedidoCompra);
 
             await this.api.post("pedidocompra"+this.fimURL, bodyFormData, {headers: {"Content-Type": "multipart/form-data"}}).then((resposta) => {
-                if(resposta.data){
-                    console.log(resposta.data.retorno);
+                // console.log(resposta.data.retorno);
+                if(resposta.data.retorno.erros){
+                    throw "Pedido de compra: "+resposta.data.retorno.erros[0].erro.msg;
                 }
             });
         }catch(error){
-            console.error("Erro ao incluirPedidoCompra. Erro = "+error);
-            if(error.response){
-                console.error(error.response.data.retorno.erros);
+            console.error("Erro ao tentar incluirPedidoCompra. Erro = "+error);
+            console.error(error);
+            if(error.msg){
+                throw error.msg.toString();
             }
+            throw error.toString(); //Se não tiver o error.msg
         }
     }
 
@@ -148,7 +179,7 @@ export default class BlingProvider {
             if(resposta.data.retorno.erros == undefined){
                 return resposta.data.retorno.produtos[0].produto;
             }else{
-                throw resposta.data.retorno.erros[0].erro.msg+" - Confira se está autenticado com o token correto";
+                throw resposta.data.retorno.erros[0].erro.msg;
             }
         }).catch((erro) => {
             console.error("Erro no método getProdutoPorCodigo(codigo) da classe BlingAPI: ");

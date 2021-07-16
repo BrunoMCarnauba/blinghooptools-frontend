@@ -9,6 +9,7 @@ import './styles.css';
 
 interface ProdutoAtualizado {
     codigoSKU: string,
+    codigoFabricante: string,
     descricao: string,
     quantidade: number,
     unidade: string,
@@ -21,7 +22,7 @@ interface ProdutoAtualizado {
 }
 
 class ProdutoAtualizado{
-    constructor(public codigoSKU:string='', public descricao: string='', public quantidade:number=0, public unidade: string='', public fabricante: string='', public ambiente: string='', public precoVenda: number=0, public precoCusto: number=0, public precoTotalVenda: number=0, public precoTotalCusto: number=0) {}
+    constructor(public codigoSKU:string='', public codigoFabricante: string = " - ", public descricao: string='', public quantidade:number=0, public unidade: string='', public fabricante: string='', public ambiente: string='', public precoVenda: number=0, public precoCusto: number=0, public precoTotalVenda: number=0, public precoTotalCusto: number=0) {}
 }
 
 export default function TelaPuxaCustos(){
@@ -46,6 +47,8 @@ export default function TelaPuxaCustos(){
     }, []);
 
     const puxarCustos = async () => {
+        let erroRetornado = "";
+        let codigosComErro = "";
         setMsgErro("");
         setLoadingStatus("Coletando dados do orçamento HoopDecor...");
 
@@ -69,6 +72,7 @@ export default function TelaPuxaCustos(){
                     for(let y = 0; y<itensDoAmbiente.length; y++){
                         produtoAtualizado = new ProdutoAtualizado();
                         produtoAtualizado.codigoSKU = itensDoAmbiente[y].reference;
+                        produtoAtualizado.codigoFabricante = itensDoAmbiente[y].sku;
                         produtoAtualizado.descricao = itensDoAmbiente[y].description+" ["+itensDoAmbiente[y].manufacturer.trade+"]";
                         produtoAtualizado.quantidade = parseFloat(itensDoAmbiente[y].quantity);
                         produtoAtualizado.unidade = itensDoAmbiente[y].unit;
@@ -85,7 +89,8 @@ export default function TelaPuxaCustos(){
                         for(let y = x+1; y<produtosAtualizados.length; y++){
                             if(produtosAtualizados[x].codigoSKU == produtosAtualizados[y].codigoSKU){
                                 produtosAtualizados[x].quantidade = produtosAtualizados[x].quantidade+produtosAtualizados[y].quantidade;
-                                produtosAtualizados.splice(y,1);    //Apagando produto duplicado
+                                produtosAtualizados.splice(y,1);    //Apagando produto duplicado e ajustando posições do vetor
+                                y = y-1;    //Para que seja conferido novamente a mesma posição checada anteriormente. Já que o item que estava na posição após o do item que foi apagado voltou uma posição.
                             }
                         }
                     }
@@ -100,9 +105,13 @@ export default function TelaPuxaCustos(){
                 //Consultando produtos no ERP e pegando os preços de custo e de venda
                 for(let x = 0; x<produtosAtualizados.length; x++){
                     if(blingERP == true){   //Se a consulta for no Bling
-                        produtoERP = await blingProvider.getProdutoPorCodigo(produtosAtualizados[x].codigoSKU);
-                        produtosAtualizados[x].precoVenda = parseFloat(produtoERP.preco);
-                        produtosAtualizados[x].precoCusto = parseFloat(produtoERP.precoCusto);
+                        await blingProvider.getProdutoPorCodigo(produtosAtualizados[x].codigoSKU).then((produtoERP) => {
+                            produtosAtualizados[x].precoVenda = parseFloat(produtoERP.preco);
+                            produtosAtualizados[x].precoCusto = parseFloat(produtoERP.precoCusto);
+                        }).catch((erro) => {
+                            erroRetornado = erro;
+                            codigosComErro += produtosAtualizados[x].codigoSKU+", ";
+                        });
                     }else{  //Se a consulta for no Tiny
                         produtoERP = await tinyProvider.getProdutoPorCodigoSKU(produtosAtualizados[x].codigoSKU);
                         produtosAtualizados[x].precoVenda = produtoERP.preco;
@@ -120,6 +129,9 @@ export default function TelaPuxaCustos(){
                 setTotalVendaSemFrete(precoTotalVenda);
                 setTotalCusto(precoTotalCusto);
 
+                if(erroRetornado != ""){
+                    setMsgErro(erroRetornado+" - Códigos afetados: "+codigosComErro);
+                }
                 // console.log(dadosOrcamento);
                 // console.log(produtosAtualizados);
             }
@@ -193,7 +205,7 @@ export default function TelaPuxaCustos(){
                             }
 
                             <div id="linha-descricao">
-                                <p><strong>Código SKU:</strong> {item.codigoSKU}</p>
+                                <p><strong>Código SKU:</strong> {item.codigoSKU} ({item.codigoFabricante})</p>
                                 <p><strong>Descrição:</strong> {item.descricao}</p>
                                 <p>{item.quantidade}{item.unidade}</p>
                             </div>

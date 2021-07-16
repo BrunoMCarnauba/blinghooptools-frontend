@@ -10,6 +10,7 @@
     --color-button-text: black;
     --color-disabled: #d3dbde;
     --color-error: crimson;
+    --color-success: green;
 }
 
 body {
@@ -55,6 +56,10 @@ fieldset .input-group:last-child{   /* Último objeto de dentro da tag fieldset 
 
 .texto-erro{
     color: var(--color-error);
+}
+
+.texto-sucesso{
+    color: var(--color-success);
 }
 
 /* body,
