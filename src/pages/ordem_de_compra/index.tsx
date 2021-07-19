@@ -105,7 +105,7 @@ export default function TelaEnviaOrdemDeCompra(){
     }
 
     return (
-        <div id="tela-puxa-custos">
+        <div id="tela-envia-ordem-compra">
             <MenuSuperior tituloPagina={"Envio de ordem de compra para o ERP"} ajudaPressionado={() => setVisualizarAjuda(!visualizarAjuda)}/>
 
             {visualizarAjuda == true && 

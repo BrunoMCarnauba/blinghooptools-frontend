@@ -87,7 +87,7 @@ export default function TelaFerramentasDiversas() {
         {juntarTudoEmUm==false && 
           <div className="input-group">
             <label htmlFor="qtdMaximaLinhasPorTabela">Quantidade máxima de linhas por tabela</label>
-            <input id="qtdMaximaLinhasPorTabela" type="number" onChange={(event) => setQtdMaximaLinhasPorTabela(parseFloat(event.target.value))} />
+            <input id="qtdMaximaLinhasPorTabela" type="number" onChange={(event) => setQtdMaximaLinhasPorTabela(parseInt(event.target.value))} />
           </div>
         }
 

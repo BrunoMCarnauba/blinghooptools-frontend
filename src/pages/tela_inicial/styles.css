@@ -42,18 +42,29 @@
 nav{
     display: flex;
     flex-direction: row;
+    max-width: 95%;
     /* flex-wrap: wrap; */
 }
 
 #tela-inicial nav .botao-normal{
-    margin-bottom: 5px;
+    margin-bottom: 0px;
+}
+
+#tela-inicial nav > *:last-child{   /* *:lastchild faz com que o css seja aplicado apenas no último elemento do nav, independente de qual seja a tag */
+    margin-right: 0px;
 }
 
 /* Executa quando a largura da tela é menor que 365px */
-@media(max-width: 365px){
-    nav{
+@media(max-width: 545px){
+    #tela-inicial nav{
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
     }
+
+    #tela-inicial nav .botao-normal{
+        margin-right: 0px;
+        margin-bottom: 5px;
+    }
+
 }

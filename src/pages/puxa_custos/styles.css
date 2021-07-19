@@ -55,11 +55,11 @@
     margin-left: auto; /* Usado para alinhar o último item que está em um display flex na direita da página */
 }
 
-#tela-puxa-custos #resultado footer{
+#tela-puxa-custos #resultado footer > div{
     display: flex;
 }
 
-#tela-puxa-custos #resultado footer p:last-child{
+#tela-puxa-custos #resultado footer > div p:last-child{
     margin: auto 0px;
     margin-left: auto;  /* Usado para alinhar o último item na direita da página: https://stackoverflow.com/questions/33924655/position-last-flex-item-at-the-end-of-container */
     text-align: end;

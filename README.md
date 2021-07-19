@@ -24,6 +24,9 @@ Por meio do relatório de arquitetos ou de vendedores do sistema HoopDecor, crie
 O sistema usa a seguinte fórmula para cálculo das comissões dos especificadores: `((Valor total com desconto e sem frete)*(1-(%TaxaModoPagamento/100))*(%ComissãoArquiteto/100))`;
 E usa a seguinte fórmula para cálculo das comissões dos vendedores: `((Valor total com desconto e sem frete)*(1-(%TaxaModoPagamento/100))*(1-%ComissãoArquiteto/100))*(%ComissãoVendedor/100)`.
 
+### Ferramenta para enviar ordem de compra HoopDecor para o ERP
+Envie para o ERP uma ordem de compra gerada através do HoopDecor.
+
 ## Scripts disponíveis
 
 Na pasta do projeto, você pode executar os seguintes comandos através do terminal:

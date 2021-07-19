@@ -220,10 +220,16 @@ export default function TelaPuxaCustos(){
                     )}
                     
                     <footer>
-                        <p><strong>Valor do frete:</strong> R$:{frete.toFixed(2)}</p>
-                        <p><strong>Total de custo sem o frete:</strong> R$:{totalCusto.toFixed(2)}</p>
-                        <p><strong>Total de venda sem o frete:</strong> R$:{totalVendaSemFrete.toFixed(2)}</p>
-                        <p>Desenvolvido por BrunoMCarnauba</p>
+                        <div>
+                            <p><strong>Valor do frete:</strong> R$:{frete.toFixed(2)}</p>
+                            <p><strong>Total de custo sem o frete:</strong> R$:{totalCusto.toFixed(2)}</p>
+                            <p><strong>Total de venda sem o frete:</strong> R$:{totalVendaSemFrete.toFixed(2)}</p>
+                            <p>Desenvolvido por BrunoMCarnauba</p>
+                        </div>
+                        
+                        {msgErro != "" &&
+                            <p>Erro encontrado: {msgErro}</p>
+                        }
                     </footer>
                 </div>
             }
