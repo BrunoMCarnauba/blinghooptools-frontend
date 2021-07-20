@@ -80,7 +80,7 @@ export default function TelaInicial(){
                             }
                         </form>
                         
-                        {loadingStatus != "" || erroAutenticacao  != "" && 
+                        {(loadingStatus != "" || erroAutenticacao  != "") && 
                             <div>
                                 <p>{loadingStatus}</p>
                                 <p className="texto-erro">{erroAutenticacao}</p>

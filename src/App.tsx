@@ -14,12 +14,11 @@ import { estaAutenticado } from './Auth';
 
 import './global.css'
 
-ReactGa.initialize('G-D19EFJ71TY'); //Inicializando Google Analytics para ter acesso à quantidade de visualizações da página
-
 function App() {
   useEffect(() => {
     document.title = "Utilitários Bling e Hoop";
-    ReactGa.pageview(window.location.pathname); //Google Analytics - Visualização da página 
+    ReactGa.initialize(process.env.REACT_APP_GA_TRACKING_ID || ""); //Inicializando Google Analytics para ter acesso à quantidade de visualizações da página
+    ReactGa.pageview(window.location.pathname); //Reporta uma visualização da página no Google Analytics
   }, []);
 
   /**

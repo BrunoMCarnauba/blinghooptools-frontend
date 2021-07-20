@@ -6,6 +6,7 @@ import './styles.css';
 
 interface propriedades{
     tituloPagina: string
+    botaoSecundario?: any;
     ajudaPressionado?: any
 }
 
@@ -22,6 +23,10 @@ export default function MenuSuperior(props: propriedades){
             <h4>{props.tituloPagina}</h4>
             
             <div>
+                {props.botaoSecundario != undefined &&
+                    props.botaoSecundario
+                }
+
                 {props.ajudaPressionado != undefined &&
                     <button className="botao" onClick={() => props.ajudaPressionado()}>Ajuda</button>
                 }

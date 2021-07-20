@@ -300,7 +300,16 @@ export default function TelaRelacionaTabelas() {
     return cloneObjERP;
   }
 
+  /**
+   * Baixa o modelo em xlsx (excel) da tabela do fabricante
+   */
+  const baixarModeloTabelaFabricante = async () => {
+    let tabelaFabricante: any[] = [{"Cód do fabricante": "", "Descrição": "", "Preço de tabela": "", "%IPI": "", "Unidade": "",
+     "Unidade por caixa": "", "Classificação fiscal": "", "CEST": "", "Origem": "", "GTIN/EAN": "", "Peso bruto (Kg)": "", 
+     "Comprimento embalagem": "", "Largura embalagem": "", "Altura embalagem": ""}];
 
+    criarExcel("Modelo de tabela do fabricante - UtilitáriosBlingHoop", tabelaFabricante);
+  }
 
   const teste = async () => {
 
@@ -337,10 +346,10 @@ export default function TelaRelacionaTabelas() {
 
   return (
     <div id="tela-relaciona-tabelas">
-      <MenuSuperior tituloPagina={"Relacionamento de tabelas"} ajudaPressionado={() => setVisualizarAjuda(!visualizarAjuda)}/>
+      <MenuSuperior tituloPagina={"Relacionamento de tabelas"} botaoSecundario={<button className="botao" onClick={() => baixarModeloTabelaFabricante()}>Baixar modelo da tabela do fabricante</button>} ajudaPressionado={() => setVisualizarAjuda(!visualizarAjuda)}/>
 
       {visualizarAjuda == true &&
-        <p className="retangulo">Preencha todos os campos. Caso não deseje que o preço seja calculado, deixe o campo fator com o valor 1 e os demais com o valor 0, isso é útil para os preços de representação. Marque as opções desejadas, adicione uma ou mais tabelas exportadas do ERP com os produtos do fabricante, adicione a tabela com os dados atualizados do fabricante (precisa conter no mínimo as colunas com os nomes a seguir: "Preço de tabela" e "Cód do fabricante" ou "Descrição". As demais colunas opcionais são: "Unidade", "Unidade por caixa", "Classificação fiscal", "CEST", "Origem", "Peso bruto (Kg)", "GTIN/EAN", "Comprimento embalagem", "Largura embalagem", "Altura embalagem" e "%IPI". O IPI deve ser o valor sem a %, por exemplo, 5% fica apenas 5. Por último aperte em carregar e aguarde a tarefa ser concluída. Será gerado uma tabela com os novos itens (se houver) e outra com os itens que serão atualizados. A aplicação fará download do(s) novo(s) arquivo(s) para o seu computador. Antes de importar, abra cada uma, confira se está ok e exclua a última coluna chamada "EMPTY_".</p>
+        <p className="retangulo">Atualize os itens do ERP (Bling ou Tiny ERP) através do relacionamento por código de fábrica ou descrição complementar. Você exporta do ERP os produtos do fabricante no qual deseja atualizar, cria uma tabela com todos os produtos recebidos do fabricante seguindo o padrão pedido pela aplicação (Colunas obrigatórias: "Preço de tabela" e "Cód do fabricante" ou "Preço de tabela" e "Descrição". Colunas opcionais: "%IPI", "Unidade", "Unidade por caixa", "Classificação fiscal", "CEST", "Origem", "GTIN/EAN", "Peso bruto (Kg)", "Comprimento embalagem", "Largura embalagem" e "Altura embalagem". O valor informado na coluna %IPI deve ser sem a %, por exemplo, 5% é apenas 5, e na origem é informado o número que a representa, que pode ser de 0 a 8), informa o nome do fabricante cadastrado no ERP, informa os valores para o cálculo de preço, personaliza a atualização com as opções disponíveis, adiciona as tabelas exportadas do ERP e a do fabricante, e a aplicação irá gerar para você uma tabela com os produtos atualizados e outra tabela com os novos produtos encontrados (se houver) para que possa ser importada no ERP. Antes de importar, abra cada uma, confira se está ok e exclua a última coluna chamada "EMPTY_" (se houver). Se não desejar que o preço seja calculado, basta deixar o fator com o valor 1 e os demais campos com o valor 0. A fórmula usada para cálculo do preço de custo é: "((PrecoTabela*(1-Desconto))*(1+ST))*(1+IPI)" e para o preço de venda é: "(PrecoCusto*Fator)*(1+Adicao)".</p>
       }
 
       <fieldset>
