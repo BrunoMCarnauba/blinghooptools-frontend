@@ -92,6 +92,7 @@ export default function TelaInicial(){
                 <nav>
                     <Link className="botao-normal" to="/relaciona-tabelas">Ferramenta para relacionamento de tabelas</Link>
                     <Link className="botao-normal" to="/relatorios-comissoes">Ferramenta para gerar relatório de comissões</Link>
+                    <Link className="botao-normal" to="/relatorio-vendas">Ferramenta para gerar planilha com as vendas</Link>
                     <Link className="botao-normal" to="/ferramentas-diversas">Ferramentas diversas</Link>
                     {estaAutenticado() == true &&
                         <>
@@ -105,7 +106,7 @@ export default function TelaInicial(){
             </main>
 
             <footer>
-                <p>Desenvolvido por Bruno - Versão 07/2021-2</p>
+                <p>Desenvolvido por <a href="https://github.com/BrunoMCarnauba/blinghooptools-frontend" target="_blank">Bruno</a> - Versão 07/2021-2</p>
             </footer>
         </div>
     );

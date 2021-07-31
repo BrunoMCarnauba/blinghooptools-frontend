@@ -54,6 +54,10 @@ nav{
     margin-right: 0px;
 }
 
+#tela-inicial footer a {
+    color: black;
+}
+
 /* Executa quando a largura da tela é menor que 365px */
 @media(max-width: 545px){
     #tela-inicial nav{

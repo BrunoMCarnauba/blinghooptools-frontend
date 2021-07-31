@@ -36,7 +36,7 @@ export default function TelaRelatorioComissoes(){
     const [aliquotaComissaoVendedor, setAliquotaComissaoVendedor] = useState<number>(0);
     const [relatorioComissoesVendedores, setRelatorioComissoesVendedores] = useState<boolean>(false);
 
-    const [dataRelatorio, setDataRelatorio] = useState<number>(0);
+    const [dataRelatorio, setDataRelatorio] = useState<string>("");
     const [listaComissoes, setListaComissoes] = useState<Comissionado[]>([]);
     const [valorTotalComissoes, setValorTotalComissoes] = useState<number>(0);
 
@@ -98,7 +98,7 @@ export default function TelaRelatorioComissoes(){
                         listaComissoesAux.push(comissionado);
                     }
                 }
-                setDataRelatorio(dadosRelatorio.date);
+                setDataRelatorio(dadosRelatorio.filters.conversion_start+" à "+dadosRelatorio.filters.conversion_end);
                 setListaComissoes(listaComissoesAux);
                 setValorTotalComissoes(totalComissoesAux);
             }
@@ -129,7 +129,7 @@ export default function TelaRelatorioComissoes(){
                 <legend>Comissões dos arquitetos</legend>
 
                 <div className="input-group">
-                    <label htmlFor="urlRelatorio">URL do relatório</label>
+                    <label htmlFor="urlRelatorio">URL do relatório PDF</label>
                     <input id="urlRelatorio" type="text" size={50} value={urlRelatorio} onChange={(event) => setURLRelatorio(event.target.value)}></input>
                 </div>
 
@@ -168,7 +168,7 @@ export default function TelaRelatorioComissoes(){
             {listaComissoes.length > 0 &&
                 <div id="resultado">
                     <header>
-                        <p><strong>Relatório de comissões de </strong> {dataRelatorio}</p>
+                        <p><strong>Relatório de comissões de {dataRelatorio}</strong></p>
                         <p><strong>Alíquota da comissão dos arquitetos: </strong> {aliquotaComissaoArquiteto}%</p>
                         <p><strong>Alíquota da comissão dos vendedores: </strong> {aliquotaComissaoVendedor}%</p>
                         <p><strong>Taxa fixa do modo de pagamento: </strong> {taxaModoPagamento}%</p>

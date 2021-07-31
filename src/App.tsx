@@ -6,6 +6,7 @@ import TelaInicial from './pages/tela_inicial';
 import TelaRelacionaTabelas from './pages/relaciona_tabelas';
 import TelaPuxaCustos from './pages/puxa_custos';
 import TelaRelatorioComissoes from './pages/relatorios_comissoes';
+import TelaRelatorioVendas from './pages/relatorio_vendas';
 import TelaMigraPedidos from './pages/migra_pedidos';
 import TelaFerramentasDiversas from './pages/ferramentas_diversas';
 import TelaEnviaOrdemDeCompra from './pages/ordem_de_compra';
@@ -53,6 +54,7 @@ function App() {
         <Route exact path="/" component={TelaInicial} />
         <Route exact path="/relaciona-tabelas" component={TelaRelacionaTabelas} />
         <Route exact path="/relatorios-comissoes" component={TelaRelatorioComissoes} />
+        <Route exact path="/relatorio-vendas" component={TelaRelatorioVendas} />
         <Route exact path="/ferramentas-diversas" component={TelaFerramentasDiversas} />
         <PrivateRoute exact path="/puxa-custos" component={TelaPuxaCustos} />
         <PrivateRoute exact path="/envia-ordem-compra" component={TelaEnviaOrdemDeCompra} />
