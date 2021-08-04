@@ -413,10 +413,11 @@ export default function TelaRelacionaTabelas() {
             <label htmlFor="inativarProdutos">Inativar produtos do ERP que não existem na tabela do fabricante</label>
         </div>
 
-        <div className="input-group">
+        {/* Atualmente essa função de códigos repetidos não está funcionando porque para funcionar precisa remover o item encontrado do vetor dadosERP. Mas no momento esse vetor é usado para criar os itens atualizados, por isso não tá podendo ser apenas removido. */}  
+        {/* <div className="input-group">
             <input type="checkbox" id="permitirCodigosRepetidos" checked={permitirCodigosRepetidos} onChange={(event) => {setPermitirCodigosRepetidos(!permitirCodigosRepetidos)}} />
             <label htmlFor="permitirCodigosRepetidos">Considerar os códigos repetidos da tabela do fabricante (eles também se repetirão na tabela do ERP)</label>
-        </div>
+        </div> */}
         
         <div className="input-group">
             <input type="checkbox" id="adicionarNomeFantasiaNaDescricao" checked={adicionarNomeFantasiaNaDescricao} onChange={(event) => {setAdicionarNomeFantasiaNaDescricao(!adicionarNomeFantasiaNaDescricao)}} />

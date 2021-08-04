@@ -4,6 +4,7 @@ import ReactGa from 'react-ga';
 
 import TelaInicial from './pages/tela_inicial';
 import TelaRelacionaTabelas from './pages/relaciona_tabelas';
+import TelaExtraiItens from './pages/extrai_itens';
 import TelaPuxaCustos from './pages/puxa_custos';
 import TelaRelatorioComissoes from './pages/relatorios_comissoes';
 import TelaRelatorioVendas from './pages/relatorio_vendas';
@@ -53,6 +54,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={TelaInicial} />
         <Route exact path="/relaciona-tabelas" component={TelaRelacionaTabelas} />
+        <Route exact path="/extrai-itens" component={TelaExtraiItens} />
         <Route exact path="/relatorios-comissoes" component={TelaRelatorioComissoes} />
         <Route exact path="/relatorio-vendas" component={TelaRelatorioVendas} />
         <Route exact path="/ferramentas-diversas" component={TelaFerramentasDiversas} />
