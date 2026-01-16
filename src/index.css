@@ -1,4 +1,24 @@
+:root {
+  --cor-plano-de-fundo-primaria: #ebebeb;
+  --cor-plano-de-fundo-secundaria: #f9f9f9;
+  --cor-plano-de-fundo-escuro-transparente: #263443d9;
+
+  --cor-primaria: #263443;
+  --cor-secundaria: #9CA2A9;
+  --cor-terciaria: #05C9B1;
+  --cor-quatenaria: #7FC4FD;
+
+  --cor-primaria-texto: #263443;
+  --cor-secundaria-texto: #53C9B1;
+  --cor-terciaria-texto: #cdcfd1;
+  
+  --cor-perigo: #de4554;
+  /* --cor-loading: #C8C8C8; */
+}
+
 body {
+  background-color: var(--cor-plano-de-fundo-primaria);
+
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -7,7 +27,119 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* {
+  box-sizing: border-box; /* Para que o padding esteja incluso no valor da largura e/ou altura */
+  margin: 0;
+  padding: 0;
+}
+
+input, textarea, select {
+  padding: 10px;
+  border: 1px solid;
+  border-radius: 5px;
+  border-color: var(--cor-secundaria);
+}
+
+input:hover, textarea:hover, select:hover { 
+  border-color: var(--cor-primaria);
+}
+
+button, .Link {
+  padding: 10px;
+  background-color: var(--cor-quatenaria);
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  border: 0px;
+  text-decoration: none;
+}
+
+button:hover {
+  background-color: var(--cor-terciaria);
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: var(--cor-secundaria);
+  cursor: unset;
+}
+
+label, p, h1, h2, h3, h4, th, td {
+  color: var(--cor-primaria-texto);
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  margin-bottom: 5px;
+}
+
+.input-group-horizontal > *:last-child {
+  /* Aplicado ao último elemento da primeira "camada" de dentro do input-group-horizontal. Independente do tipo de elemento (label, input, etc...) */
+  margin-left: 5px;
+}
+
+fieldset {
+  padding: 10px;
+  background-color: var(--cor-plano-de-fundo-primaria);
+  border-width: 0px;
+  border-radius: 5px;
+}
+
+fieldset legend {
+  background-color: var(--cor-plano-de-fundo-primaria);
+  border-radius: 5px;
+  padding: 0px 10px 0px 5px;
+  margin-left: -10px;
+}
+
+.conteudo {
+  background-color: var(--cor-plano-de-fundo-secundaria);
+  height: 100%;
+  padding: 10px;
+}
+
+table {
+  display: block;
+  overflow-x: auto;
+}
+
+table tr th, table tr td {
+  text-align: start;
+  vertical-align: top;
+  padding-bottom: 5px;
+}
+
+.mensagem-erro {
+  color: var(--cor-perigo);
+}
+
+/* table tr th:not(:last-child) {
+  margin-right: 0px;
+} */
+
+/**
+ * Para monitores
+ */
+
+ @media(min-width: 700px) {
+  .conteudo {
+    margin: 0px 10%;
+  }
+
+  #root {
+    min-height: 90vh;
+  }
+  
+  #root > :first-child {
+    height: 100%;
+  }
+
+  table {
+    display: table;
+    width: 100%;
+  }
 }

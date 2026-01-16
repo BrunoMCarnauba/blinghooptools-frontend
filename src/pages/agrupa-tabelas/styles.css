@@ -1,0 +1,8 @@
+#tela-agrupa-tabelas .conteudo form fieldset{
+    margin-bottom: 10px;
+}
+
+#tela-agrupa-tabelas .conteudo form .input-group:not(:last-child) {
+    /* Exceto o último input-group do form */
+    margin-bottom: 5px;
+}

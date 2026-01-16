@@ -1,0 +1,63 @@
+#componente-cabecalho #cabecalho-sistema {
+    background-color: var(--cor-primaria);
+    padding: 5px 0px 5px 5px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#componente-cabecalho #cabecalho-sistema span:first-child {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#componente-cabecalho #cabecalho-sistema span:first-child img {
+    height: 32px;
+    margin-right: 10px;
+}
+
+#componente-cabecalho #cabecalho-sistema span:first-child h2, #componente-cabecalho #cabecalho-pagina p {
+    margin: 0px;
+    color: var(--cor-terciaria-texto);
+    display: inline-block;
+}
+
+#componente-cabecalho #cabecalho-pagina {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: var(--cor-primaria);
+    padding: 10px 5px;
+}
+
+#componente-cabecalho #cabecalho-pagina button {
+    background-color: unset;
+    padding: 0px;
+    margin-right: 10px;
+}
+
+#componente-cabecalho #cabecalho-pagina button img {
+    height: 16px;
+}
+
+/**
+ * Para monitores
+ */
+
+@media(min-width: 700px) {
+    #componente-cabecalho #cabecalho-sistema{
+        flex-direction: row;
+    }
+
+    #componente-cabecalho #cabecalho-sistema span:first-child {
+        margin-bottom: 0px;
+    }
+
+    #componente-cabecalho #cabecalho-sistema span:last-child {
+        margin-left: auto;
+        margin-right: 10px;
+    }
+
+}

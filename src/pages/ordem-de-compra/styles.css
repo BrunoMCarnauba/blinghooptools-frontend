@@ -1,0 +1,42 @@
+#tela-envia-ordem-compra .conteudo form fieldset {
+    margin-bottom: 10px;
+}
+
+#tela-envia-ordem-compra .conteudo #opcoes-atualizacao .input-group-horizontal:not(:last-child) {
+    /* Exceto para o último input-group-horizontal das opcoes de atualizacao */
+    margin-bottom: 5px;
+}
+
+#tela-envia-ordem-compra .conteudo form #botoes-opcoes {
+    display: flex;
+    flex-direction: column;
+}
+
+#tela-envia-ordem-compra .conteudo form #botoes-opcoes button:not(:last-child) {
+    /* Exceto para o último botão botoes-opções */
+    margin-bottom: 5px;
+}
+
+#tela-envia-ordem-compra .conteudo #modal-ajuda {
+    padding: 5px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#tela-envia-ordem-compra .conteudo #modal-ajuda p {
+    margin-bottom: 10px;
+}
+
+/** Para monitores > 700px de largura */
+@media(min-width: 700px) {
+    #tela-envia-ordem-compra .conteudo form #botoes-opcoes {
+        display: flex;
+        flex-direction: row;
+    }
+
+    #tela-envia-ordem-compra .conteudo form #botoes-opcoes button:not(:last-child) {
+        margin-bottom: 0px;
+        margin-right: 5px;
+    }
+}

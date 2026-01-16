@@ -1,0 +1,92 @@
+#tela-relatorio-comissoes .conteudo .input-group,
+#tela-relatorio-comissoes #modal-edicao-comissao .input-group {
+    margin-bottom: 5px;
+}
+
+#tela-relatorio-comissoes .conteudo form {
+    background-color: var(--cor-plano-de-fundo-primaria);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#tela-relatorio-comissoes .conteudo form #botoes-opcoes button {
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+/* Relatório */
+
+#tela-relatorio-comissoes .conteudo #relatorio {
+    margin-top: 10px;
+}
+
+#tela-relatorio-comissoes .conteudo #relatorio h1, #tela-relatorio-comissoes .conteudo #relatorio h2,
+#tela-relatorio-comissoes .conteudo #relatorio h3, #tela-relatorio-comissoes .conteudo #relatorio h4 {
+    color: var(--cor-primaria-texto);
+}
+
+#tela-relatorio-comissoes .conteudo #relatorio header,
+#tela-relatorio-comissoes .conteudo #relatorio footer {
+    background-color: var(--cor-plano-de-fundo-primaria);
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+#tela-relatorio-comissoes .conteudo #relatorio #footer-geral {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+#tela-relatorio-comissoes .conteudo #relatorio #footer-geral footer {
+    width: 80%;
+}
+
+#tela-relatorio-comissoes .conteudo #relatorio footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+#tela-relatorio-comissoes .conteudo #relatorio img {
+    height: 16px;
+}
+
+#tela-relatorio-comissoes .conteudo #relatorio table td button {
+    margin: 1px;
+}
+
+/* #tela-relatorio-comissoes .conteudo #relatorio table {
+    display: block;
+    overflow-x: auto;
+} */
+
+/** Modal - Edição de comissão e Envio de comissões */
+
+#tela-relatorio-comissoes #modal-edicao-comissao,
+#tela-relatorio-comissoes #modal-envio-comissoes {
+    padding: 10px;
+}
+
+#tela-relatorio-comissoes #modal-edicao-comissao p,
+#tela-relatorio-comissoes #modal-envio-comissoes p {
+    margin-bottom: 10px;
+}
+
+#tela-relatorio-comissoes #modal-edicao-comissao button,
+#tela-relatorio-comissoes #modal-envio-comissoes button {
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+/** Para monitores > 700px de largura */
+@media(min-width: 700px) {
+    #tela-relatorio-comissoes .conteudo form .lado-a-lado {
+        display: flex;
+        flex-direction: row;
+    }
+
+    #tela-relatorio-comissoes .conteudo form .lado-a-lado .input-group {
+        margin-right: 10px;
+    }
+}

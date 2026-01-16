@@ -1,0 +1,109 @@
+/* Autenticação no ERP */
+#tela-inicio .conteudo #autenticacao {
+    background-color: var(--cor-plano-de-fundo-primaria);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+#tela-inicio #autenticacao #opcoes-erp {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0px;
+}
+
+#tela-inicio #autenticacao #opcoes-erp input {
+    margin-right: 3px;
+}
+
+#tela-inicio #autenticacao #opcoes-erp label:not(:last-child) {
+    margin-right: 10px;
+}
+
+#tela-inicio .conteudo #autenticacao #container-token {
+    display: flex;
+    flex-direction: column;
+}
+
+#tela-inicio .conteudo #autenticacao #container-token button {
+    margin-top: 10px;
+}
+
+/* Categoria do menu  */
+#tela-inicio .conteudo nav > div {
+    margin-bottom: 10px;
+}
+
+/* Cabeçalho da categoria do menu */
+#tela-inicio .conteudo nav div div:first-of-type {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: var(--cor-primaria);
+    padding: 5px;
+} 
+
+#tela-inicio .conteudo nav .cabecalho-categoria-menu h2 {
+    color: var(--cor-terciaria-texto);
+}
+
+/* Botões da categoria do menu */
+#tela-inicio .conteudo nav div .botoes-menu {
+    display: flex;
+    flex-direction: column;
+    border: 3px solid var(--cor-primaria);
+    padding: 5px;
+}
+
+#tela-inicio .conteudo nav .botoes-menu button:not(:last-child) {
+    /* Exceto para o último botão dos botoes-menu */
+    margin-bottom: 5px;
+}
+
+/** Para monitores > 700px de largura */
+@media(min-width: 700px) {
+    /* Autenticação */
+    #tela-inicio #autenticacao #opcoes-erp {
+        justify-content: flex-start;
+    }
+
+    #tela-inicio .conteudo #autenticacao #container-token {
+        display: flex;
+        flex-direction: row;
+    }
+
+    #tela-inicio .conteudo #autenticacao .input-group {
+        flex-direction: row;
+        align-items: center;
+        flex: 1;
+    }
+    
+    #tela-inicio .conteudo #autenticacao .input-group label {
+        margin-bottom: 0px;
+    }
+
+    #tela-inicio .conteudo #autenticacao .input-group input {
+        margin-left: 5px;
+        flex: 1;
+    }
+
+    #tela-inicio .conteudo #autenticacao #container-token button {
+        margin-left: 5px;
+        margin-top: 0px;
+    }
+
+    /* Botões da categoria do menu */
+    #tela-inicio .conteudo nav div .botoes-menu {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    #tela-inicio .conteudo nav button {
+        width: 200px;
+        min-height: 50px;
+        margin: 2.5px;
+    }
+
+    #tela-inicio .conteudo nav .botoes-menu button:not(:last-child) {
+        margin: 2.5px;
+    }
+}

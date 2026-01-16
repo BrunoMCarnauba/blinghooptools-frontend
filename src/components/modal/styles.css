@@ -1,0 +1,43 @@
+#componente-modal {
+    background-color: var(--cor-plano-de-fundo-escuro-transparente);
+    
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#componente-modal main {
+    background-color: var(--cor-plano-de-fundo-secundaria);
+    width: 90%;
+    max-height: 90%;
+    overflow: auto;
+}
+
+/* Cabeçalho */
+#componente-modal main header:first-child {
+    background-color: var(--cor-primaria);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+
+#componente-modal main header:first-child h3 {
+    color: var(--cor-terciaria-texto);
+    text-align: center;
+}
+
+#componente-modal main header:first-child button {
+    background-color: unset;
+    margin-left: auto;
+}
+
+#componente-modal main header:first-child button img {
+    height: 16px;
+}

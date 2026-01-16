@@ -1,0 +1,8 @@
+#tela-extrai-itens .conteudo form fieldset {
+    margin-bottom: 10px;
+}
+
+#tela-extrai-itens .conteudo form #opcoes-extracao .input-group-horizontal:not(:last-child) {
+    /* Exceto para o último input-group-horizontal das opções de extração */
+    margin-bottom: 5px;
+}
